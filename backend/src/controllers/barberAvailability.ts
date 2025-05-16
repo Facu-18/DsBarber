@@ -1,5 +1,11 @@
 import { Request, Response } from "express";
 import { BarberAvailability } from "../models/BarberAvailability";
+import { Booking } from "../models/Booking";
+
+interface GetReservedSlotsQuery {
+  barberId?: string;
+  date?: string;
+}
 
 export class BarberAvailabilityController {
   static createAvailability = async (req: Request, res: Response) => {
@@ -50,13 +56,40 @@ export class BarberAvailabilityController {
   };
 
   static deleteAvailability = async (req: Request, res: Response) => {
-     try {
-            const { availabilityId } = req.params;
-            await BarberAvailability.destroy({ where: { availability_id: availabilityId } });
-            res.json("Horario eliminado correctamente");
-        } catch (error) {
-            console.error("Error al eliminar el horario:", error);
-            res.status(500).json({ message: "Error interno del servidor" });
-        }
+    try {
+      const { availabilityId } = req.params;
+      await BarberAvailability.destroy({
+        where: { availability_id: availabilityId },
+      });
+      res.json("Horario eliminado correctamente");
+    } catch (error) {
+      console.error("Error al eliminar el horario:", error);
+      res.status(500).json({ message: "Error interno del servidor" });
+    }
+  };
+
+  static getReservedSlots = async (
+    req: Request<{ barberId: string }, {}, {}, { date?: string }>, // Tipado correcto
+    res: Response
+  ) => {
+    const { barberId } = req.params; // Ahora viene de params
+    const { date } = req.query; // Date sigue viniendo de query
+
+    if (!barberId || !date) {
+      res.status(400).json({ message: "Faltan parámetros" });
+      return 
+    }
+
+    // Resto del código igual...
+    const bookings = await Booking.findAll({
+      where: {
+        barber_id: barberId,
+        date,
+      },
+      attributes: ["time"],
+    });
+
+    const slots = bookings.map((b: Booking) => b.time);
+    res.json({ slots });
   };
 }

@@ -179,4 +179,7 @@ router.put(
  */
 router.delete('/:availabilityId', BarberAvailabilityController.deleteAvailability);
 
+// Ruta modificada
+router.get('/reserved-slots/:barberId', BarberAvailabilityController.getReservedSlots)
+
 export default router;
