@@ -28,55 +28,42 @@ export default function SelectBarber() {
   if (loading) return <p className="text-gray-600 text-center text-lg font-medium animate-pulse">Cargando barberos...</p>;
 
   return (
-    <div className="w-full">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center font-sans tracking-tight">
-        Elegí un barbero
+    <div className="w-full px-4 sm:px-6 lg:px-8">
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 sm:mb-10 text-center font-sans tracking-tight">
+        Elegí tu barbero
       </h1>
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[600px] bg-white rounded-xl shadow-sm border border-gray-200">
-          <thead>
-            <tr className="bg-gray-50 border-b border-gray-200">
-              <th className="py-4 px-6 text-left text-gray-700 font-semibold text-sm tracking-wide">Foto</th>
-              <th className="py-4 px-6 text-left text-gray-700 font-semibold text-sm tracking-wide">Nombre</th>
-              <th className="py-4 px-6 text-left text-gray-700 font-semibold text-sm tracking-wide">Descripción</th>
-              <th className="py-4 px-6 text-left text-gray-700 font-semibold text-sm tracking-wide">Acción</th>
-            </tr>
-          </thead>
-          <tbody>
-            {barbers.map((barber) => (
-              <tr
-                key={barber.barber_id}
-                className="hover:bg-gray-50 transition-colors duration-200 border-b border-gray-200 last:border-b-0"
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {barbers.map((barber) => (
+          <div
+            key={barber.barber_id}
+            className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"
+          >
+            <div className="relative">
+              <img
+                src={barber.image}
+                alt={barber.name}
+                className="w-full h-40 sm:h-48 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+              <h2 className="absolute bottom-4 left-4 text-lg sm:text-xl font-semibold text-white font-sans tracking-wide">
+                {barber.name}
+              </h2>
+            </div>
+            <div className="p-4 sm:p-5 flex flex-col flex-1">
+              <p className="text-sm text-gray-600 mb-4 sm:mb-5 line-clamp-2 sm:line-clamp-3">
+                {barber.description}
+              </p>
+              <button
+                className="mt-auto w-full bg-blue-600 text-white py-2 sm:py-2.5 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm sm:text-base font-medium"
+                onClick={() =>
+                  router.push(`/reservar/turnos?service_id=${serviceId}&barber_id=${barber.barber_id}`)
+                }
               >
-                <td className="py-4 px-6">
-                  <img
-                    src={barber.image}
-                    alt={barber.name}
-                    className="w-32 h-32 object-cover rounded-lg"
-                  />
-                </td>
-                <td className="py-4 px-6">
-                  <h2 className="text-xl font-semibold text-blue-900 font-sans tracking-wide">
-                    {barber.name}
-                  </h2>
-                </td>
-                <td className="py-4 px-6">
-                  <p className="text-sm text-gray-600 line-clamp-2">{barber.description}</p>
-                </td>
-                <td className="py-4 px-6">
-                  <button
-                    className="w-full max-w-xs bg-blue-600 text-white py-2 px-4 rounded-xl hover:bg-blue-700 transition-colors duration-300 font-semibold text-sm shadow-sm hover:shadow-md"
-                    onClick={() =>
-                      router.push(`/reservar/turnos?service_id=${serviceId}&barber_id=${barber.barber_id}`)
-                    }
-                  >
-                    Seleccionar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                Seleccionar
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

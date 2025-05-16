@@ -9,6 +9,7 @@ import {
   filterReservedSlots,
 } from '@/src/utils/date';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Spinner from './UI/Spinner';
 
 interface GroupedAvailability {
   [key: string]: {
@@ -109,7 +110,7 @@ export default function AvailableDays() {
   }));
 
   if (loading || !isReservedLoaded) {
-    return <p className="text-gray-600 text-center text-lg font-medium animate-pulse">Cargando turnos...</p>;
+    return <div> <Spinner/> </div>;
   }
 
   if (!availabilityEntries.length) {
@@ -117,28 +118,27 @@ export default function AvailableDays() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow-lg border border-gray-200">
-      <div className="flex justify-between items-center mb-6 text-sm font-medium text-gray-700">
-        <span className="text-blue-900 font-semibold">1. Fecha y hora</span>
-        <span>2. Profesional</span>
-        <span>3. Datos de contacto</span>
-      </div>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center font-sans tracking-tight">
+    <div className="max-w-4xl mx-auto p-8 bg-white rounded-3xl shadow-xl border border-gray-200">
+      {/* Título */}
+      <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center font-sans tracking-tight">
         Seleccioná un día y turno
       </h2>
 
-      <div className="space-y-6">
+      {/* Lista de días y horarios */}
+      <div className="space-y-8">
         {availabilityEntries.map((entry) => (
-          <div key={entry.formattedDate} className="border-b border-gray-200 pb-4 last:border-b-0">
-            <h3 className="text-lg font-semibold text-gray-800 mb-3">
+          <div key={entry.formattedDate} className="border-b border-gray-200 pb-6 last:border-b-0">
+            <h3 className="text-xl font-semibold text-blue-900 mb-4 flex items-center gap-2">
+              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50 text-blue-700 font-medium text-sm">
+                {entry.date.getDate()}
+              </span>
               {entry.day}, {entry.formattedDate}
             </h3>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
-              {entry.slots.map((slot) => (
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
+              {entry.slots.map((slot: string) => (
                 <button
                   key={slot}
-                  className="py-2 px-3 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-lg hover:bg-blue-600 hover:text-white transition-colors duration-200 shadow-sm"
+                  className="py-2.5 px-4 text-sm font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-xl hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300 shadow-sm hover:shadow-md"
                   onClick={() =>
                     router.push(
                       `/reservar/contacto?service_id=${serviceId}&barber_id=${barberId}&date=${entry.isoDate}&time=${slot}`
@@ -153,5 +153,6 @@ export default function AvailableDays() {
         ))}
       </div>
     </div>
+      
   );
 }

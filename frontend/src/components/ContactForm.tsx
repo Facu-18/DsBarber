@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import Spinner from './UI/Spinner'
+import Link from 'next/link'
 
 const schema = z.object({
   name: z.string().min(2, 'Nombre obligatorio'),
@@ -58,41 +59,63 @@ export default function ContactForm() {
     <Spinner />
   </div>
 ) : (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto bg-white shadow p-6 rounded-lg space-y-4">
-      <h2 className="text-xl font-bold mb-2">Tus datos</h2>
-
-      <p className="text-sm text-gray-700">
-        <strong>Servicio:</strong> {serviceId} <br />
-        <strong>Barbero:</strong> {barberId} <br />
-        <strong>Fecha:</strong> {date} <br />
-        <strong>Hora:</strong> {time}
-      </p>
-
-      <div>
-        <label className="block text-sm font-medium">Nombre</label>
-        <input {...register('name')} className="w-full border px-3 py-2 rounded" />
-        {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium">Email</label>
-        <input type="email" {...register('email')} className="w-full border px-3 py-2 rounded" />
-        {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium">Teléfono</label>
-        <input {...register('phone')} className="w-full border px-3 py-2 rounded" />
-        {errors.phone && <p className="text-red-500 text-sm">{errors.phone.message}</p>}
-      </div>
-
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+    <div className="max-w-md mx-auto p-4 sm:p-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white border border-gray-100 rounded-2xl shadow-lg p-6 sm:p-8 space-y-6"
       >
-        Reservar
-      </button>
-    </form>
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-6 font-sans tracking-wide">
+          Tus datos
+        </h2>
+
+        <div className="bg-gray-50 rounded-xl p-4 mb-6">
+          <p className="text-sm text-gray-600">
+            <span className="font-medium text-gray-800">Fecha:</span> {date} <br />
+            <span className="font-medium text-gray-800">Hora:</span> {time}
+          </p>
+        </div>
+
+        <div className="space-y-5">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
+            <input
+              {...register('name')}
+              className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300 transition-all duration-200 placeholder-gray-400"
+              placeholder="Ingresa tu nombre"
+            />
+            {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <input
+              type="email"
+              {...register('email')}
+              className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300 transition-all duration-200 placeholder-gray-400"
+              placeholder="Ingresa tu email"
+            />
+            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono</label>
+            <input
+              {...register('phone')}
+              className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300 transition-all duration-200 placeholder-gray-400"
+              placeholder="Ingresa tu teléfono"
+            />
+            {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full bg-blue-600 text-white py-2.5 rounded-xl hover:bg-blue-700 transition-all duration-200 font-medium text-sm sm:text-base disabled:bg-blue-400 disabled:cursor-not-allowed"
+        >
+          Reservar
+        </button>
+      </form>
+    </div>
   )
 }
