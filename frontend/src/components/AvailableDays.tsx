@@ -36,10 +36,17 @@ export default function AvailableDays() {
     if (!barberId) return;
     setLoading(true);
     getAvailability(barberId)
-      .then(setAvailability)
+      .then((data) => {
+        setAvailability(data);
+        if (data.length === 0) {
+          // ✅ No hay disponibilidad, no hace falta buscar reservas
+          setIsReservedLoaded(true);
+        }
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [barberId]);
+
 
   // 2. Obtener horarios reservados
   useEffect(() => {
@@ -113,11 +120,19 @@ export default function AvailableDays() {
     .sort((a, b) => a.date.getTime() - b.date.getTime()); // ✅ ordenar por fecha}));
 
   if (loading || !isReservedLoaded) {
-    return <div> <Spinner /> </div>;
+    return (
+      <div className="py-10 flex justify-center">
+        <Spinner />
+      </div>
+    );
   }
 
-  if (!availabilityEntries.length) {
-    return <p className="text-gray-600 text-center text-lg font-medium">No hay días disponibles.</p>;
+  if (!availability.length || availabilityEntries.length === 0) {
+    return (
+      <div className="text-center text-black-600 text-lg font-medium py-10">
+        No hay turnos disponibles.
+      </div>
+    );
   }
 
   return (

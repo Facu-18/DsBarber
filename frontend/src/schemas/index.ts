@@ -10,6 +10,18 @@ export const BookingSchema = z.object({
   serviceId: z.string(),
 })
 
+export type Booking = {
+  booking_id: number;
+  client: { name: string; email: string };
+  service: { name: string; price: number };
+  date: string;
+  time: string;
+};
+
+type Barber = {
+  barber_id: number;
+  name: string;
+};
 
 export const SuccessSchema = z.object({
   message: z.string(),
