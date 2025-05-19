@@ -13,6 +13,8 @@ export type Service = z.infer<typeof ServiceSchema>
 
 export async function getServices(): Promise<Service[]> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  
+  
   const res = await fetch(`${baseUrl}/service/get-service`)
   if (!res.ok) throw new Error('Error al obtener servicios')
 
