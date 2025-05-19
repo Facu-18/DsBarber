@@ -104,13 +104,16 @@ export default function AvailableDays() {
     return acc;
   }, {} as GroupedAvailability);
 
-  const availabilityEntries = Object.entries(groupedAvailability).map(([formattedDate, data]) => ({
-    formattedDate,
-    ...data,
-  }));
+  const availabilityEntries = Object.entries(groupedAvailability)
+    .map(([formattedDate, data]) => ({
+      formattedDate,
+      ...data,
+    }))
+    .filter((entry) => entry.slots.length > 0) // ✅ solo días con turnos
+    .sort((a, b) => a.date.getTime() - b.date.getTime()); // ✅ ordenar por fecha}));
 
   if (loading || !isReservedLoaded) {
-    return <div> <Spinner/> </div>;
+    return <div> <Spinner /> </div>;
   }
 
   if (!availabilityEntries.length) {
@@ -153,6 +156,6 @@ export default function AvailableDays() {
         ))}
       </div>
     </div>
-      
+
   );
 }

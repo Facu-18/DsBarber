@@ -25,7 +25,7 @@ export default function SeleccionarBarbero() {
             </p>
             <div className="flex gap-3 sm:gap-4">
               <Link
-                href="https://www.instagram.com"
+                href="https://www.instagram.com/ds_barbershopok/"
                 target="_blank"
                 className="text-gray-600 hover:text-blue-700 transition-colors duration-200"
               >
@@ -34,7 +34,7 @@ export default function SeleccionarBarbero() {
                 </svg>
               </Link>
               <Link
-                href="https://www.whatsapp.com"
+                href="https://wa.me/543512291106"
                 target="_blank"
                 className="text-gray-600 hover:text-blue-700 transition-colors duration-200"
               >
@@ -56,7 +56,7 @@ export default function SeleccionarBarbero() {
               >
                 Bartolomé Hidalgo 1660, Córdoba Parque Liceo III
               </Link>
-              <p className="text-sm text-blue-600 mt-1">+54 351 324 4702</p>
+              <p className="text-sm text-blue-600 mt-1">+54 9 3512291106</p>
             </div>
           </div>
         </div>

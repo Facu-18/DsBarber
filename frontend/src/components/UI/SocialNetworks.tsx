@@ -20,7 +20,7 @@ export default function SocialNetworks() {
                     </svg>
                 </Link>
                 <Link
-                    href="https://www.whatsapp.com"
+                    href="https://wa.me/543512291106"
                     target="_blank"
                     className="text-gray-600 hover:text-amber-700 transition-colors"
                 >

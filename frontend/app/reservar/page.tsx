@@ -39,7 +39,7 @@ export default function ElegirServicio() {
                             >
                                 Bartolomé Hidalgo 1660, Córdoba Parque Liceo III
                             </Link>
-                            <p className="text-sm text-blue-600 mt-1">+54 351 324 4702</p>
+                            <p className="text-sm text-blue-600 mt-1">+54 9 3512291106</p>
                             <div className="flex gap-3 mt-4 items-center">
                                 <span className="text-sm font-semibold text-gray-800">Profesionales:</span>
                                 <div className="flex gap-3">
