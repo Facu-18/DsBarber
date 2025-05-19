@@ -13,7 +13,8 @@ export default function TurnosPorBarbero() {
 
   // Cargar barberos
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/barber/barbers`)
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+    fetch(`${baseUrl}/barber/barbers`)
       .then((res) => res.json())
       .then(setBarbers)
       .catch((err) => console.error('Error cargando barberos:', err));

@@ -59,10 +59,11 @@ export default function AvailableDays() {
       const uniqueDates = [...new Set(allDates)];
 
       try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL;
         const responses = await Promise.all(
           uniqueDates.map(iso =>
             fetch(
-              `${process.env.NEXT_PUBLIC_API_URL}/availability/reserved-slots/${barberId}?date=${iso}`
+              `${baseUrl}/availability/reserved-slots/${barberId}?date=${iso}`
             )
           )
         );

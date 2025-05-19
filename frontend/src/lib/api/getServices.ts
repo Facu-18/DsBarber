@@ -12,7 +12,8 @@ export const ServicesArraySchema = z.array(ServiceSchema)
 export type Service = z.infer<typeof ServiceSchema>
 
 export async function getServices(): Promise<Service[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/service/get-service`)
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(`${baseUrl}/service/get-service`)
   if (!res.ok) throw new Error('Error al obtener servicios')
 
   const data = await res.json()

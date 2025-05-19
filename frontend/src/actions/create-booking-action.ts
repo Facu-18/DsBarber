@@ -31,7 +31,8 @@ export async function createBooking(
     }
   }
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/booking/create/${data.barberId}/${data.serviceId}`, {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(`${baseUrl}/booking/create/${data.barberId}/${data.serviceId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(parsed.data),

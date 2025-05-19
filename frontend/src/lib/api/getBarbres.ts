@@ -13,7 +13,8 @@ export const BarbersArraySchema = z.array(BarberSchema)
 export type Barber = z.infer<typeof BarberSchema>
 
 export async function getBarbers(): Promise<Barber[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/barber/barbers`)
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(`${baseUrl}/barber/barbers`)
   if (!res.ok) throw new Error('Error al obtener barberos')
 
   const data = await res.json()

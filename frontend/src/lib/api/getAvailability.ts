@@ -14,7 +14,8 @@ const AvailabilityArraySchema = z.array(AvailabilitySchema)
 export type Availability = z.infer<typeof AvailabilitySchema>
 
 export async function getAvailability(barberId: number): Promise<Availability[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/availability/${barberId}`)
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(`${baseUrl}/availability/${barberId}`)
   if (!res.ok) throw new Error('Error al obtener disponibilidad')
 
   const data = await res.json()

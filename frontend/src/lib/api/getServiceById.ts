@@ -10,7 +10,8 @@ const ServiceSchema = z.object({
 export type Service = z.infer<typeof ServiceSchema>
 
 export async function getServiceById(id: number): Promise<Service> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/service/${id}`)
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(`${baseUrl}/service/${id}`)
   if (!res.ok) throw new Error('Error al obtener servicio')
 
   const data = await res.json()
