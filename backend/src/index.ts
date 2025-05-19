@@ -28,10 +28,20 @@ const port = process.env.PORT;
 
 app.use(express.json());
 
-app.use(cors({
-  origin: 'http://localhost:3000', 
-}));
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://ds-barber.vercel.app'
+];
 
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}));
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
