@@ -2,7 +2,6 @@
 
 import { useSearchParams } from 'next/navigation'
 import { createBooking } from '@/src/actions/create-booking-action'
-import Spinner from './UI/Spinner'
 import { useActionState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 

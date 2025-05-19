@@ -4,7 +4,7 @@ export function getUpcomingDatesForDay(dayName: string, count: number = 7): Date
   const today = new Date()
   const results: Date[] = []
 
-  let date = new Date(today)
+  const date = new Date(today)
   while (results.length < count) {
     if (date.getDay() === targetDay) {
       results.push(new Date(date))

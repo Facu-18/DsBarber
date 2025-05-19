@@ -2,6 +2,7 @@
 import ContactForm from '@/src/components/ContactForm'
 import Map from '@/src/components/UI/Map'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 
 export default function Contacto() {
@@ -60,7 +61,9 @@ export default function Contacto() {
         </div>
 
         {/* Sección de formulario de contacto */}
-        <ContactForm />
+        <Suspense>
+          <ContactForm />
+        </Suspense>
         <div className="flex justify-between mt-6">
           <Link
             href="/reservar"

@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify';
 const outfit = Outfit({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'BOX Barberstudio',
+  title: 'Ds Barberstudio',
   description: 'Experiencia única para potenciar tu imagen al 100%',
 };
 

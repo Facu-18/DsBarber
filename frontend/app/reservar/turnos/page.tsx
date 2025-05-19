@@ -1,6 +1,7 @@
 import AvailableDays from "@/src/components/AvailableDays"
 import Link from "next/link"
 import Map from '@/src/components/UI/Map'
+import { Suspense } from "react"
 
 export default function SeleccionarTurno() {
   return (
@@ -58,7 +59,10 @@ export default function SeleccionarTurno() {
         </div>
 
         {/* Componente de selección de días y horarios */}
-        <AvailableDays />
+        <Suspense>
+          <AvailableDays />
+        </Suspense>
+    
         <div className="flex justify-between mt-6">
           <Link
             href="/reservar"

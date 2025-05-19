@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Barber, getBarbers } from '@/src/lib/api/getBarbres';
+import Image from 'next/image';
 
 export default function SelectBarber() {
   const searchParams = useSearchParams();
@@ -24,8 +25,13 @@ export default function SelectBarber() {
     fetchBarbers();
   }, []);
 
-  if (!serviceId) return <p className="text-red-500 text-center text-lg font-medium">No se proporcionó un servicio.</p>;
-  if (loading) return <p className="text-gray-600 text-center text-lg font-medium animate-pulse">Cargando barberos...</p>;
+  if (!serviceId) {
+    return <p className="text-red-500 text-center text-lg font-medium">No se proporcionó un servicio.</p>;
+  }
+
+  if (loading) {
+    return <p className="text-gray-600 text-center text-lg font-medium animate-pulse">Cargando barberos...</p>;
+  }
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8">
@@ -38,11 +44,14 @@ export default function SelectBarber() {
             key={barber.barber_id}
             className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"
           >
-            <div className="relative">
-              <img
+            <div className="relative w-full h-40 sm:h-48">
+              <Image
                 src={barber.image}
                 alt={barber.name}
-                className="w-full h-40 sm:h-48 object-cover"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
               <h2 className="absolute bottom-4 left-4 text-lg sm:text-xl font-semibold text-white font-sans tracking-wide">

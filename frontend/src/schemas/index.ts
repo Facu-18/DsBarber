@@ -18,7 +18,7 @@ export type Booking = {
   time: string;
 };
 
-type Barber = {
+export type Barber = {
   barber_id: number;
   name: string;
 };
