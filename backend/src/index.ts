@@ -51,6 +51,5 @@ app.use('/api/service', serviceRoutes)
 app.use('/api/availability', barberAvailabilityRoutes);
 app.use('/api/booking', bookingRoutes);
 
-
 //ruta de swagger
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
