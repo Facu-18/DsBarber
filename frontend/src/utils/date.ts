@@ -46,11 +46,20 @@ export function formatTime(date: Date): string {
 }
 
 
-export function generateTimeSlots(start: string, end: string, stepMinutes: number = 45): string[] {
+export function generateTimeSlots(
+  start: string,
+  end: string,
+  stepMinutes: number = 45,
+  dateContext?: Date // ✅ NUEVO
+): string[] {
   const slots: string[] = [];
 
   const [startHour, startMin] = start.split(":").map(Number);
   const [endHour, endMin] = end.split(":").map(Number);
+
+  const now = new Date();
+  const todayIso = now.toISOString().split('T')[0];
+  const isToday = dateContext && dateContext.toISOString().split('T')[0] === todayIso;
 
   const startDate = new Date();
   startDate.setHours(startHour, startMin, 0, 0);
@@ -61,7 +70,12 @@ export function generateTimeSlots(start: string, end: string, stepMinutes: numbe
   while (startDate < endDate) {
     const hours = String(startDate.getHours()).padStart(2, "0");
     const minutes = String(startDate.getMinutes()).padStart(2, "0");
-    slots.push(`${hours}:${minutes}`); // ejemplo: "09:00"
+
+    const slot = `${hours}:${minutes}`;
+
+    if (!isToday || startDate > now) {
+      slots.push(slot); // ✅ solo si es horario futuro o no es hoy
+    }
 
     startDate.setMinutes(startDate.getMinutes() + stepMinutes);
   }

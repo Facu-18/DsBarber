@@ -1,5 +1,5 @@
 export function getDayNameESLocal(dateStr: string): string {
-  const WEEKDAYS_ES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+  const WEEKDAYS_ES = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado"];
 
   const [year, month, day] = dateStr.split("-").map(Number);
   const localDate = new Date(year, month - 1, day); // ← mes empieza en 0

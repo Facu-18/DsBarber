@@ -3,6 +3,7 @@ import { Booking } from "../models/Booking";
 import { ClientInfo } from "../models/ClientInfo";
 import { Service } from "../models/Service";
 import { ReservationEmail } from "../emails/ReservationEmail";
+import { sendWhatsappNotification } from "../utils/sendWhatsapp";
 
 export class BookingController {
   static createBooking = async (req: Request, res: Response) => {
@@ -27,6 +28,14 @@ export class BookingController {
 
       // 📧 Enviar email de confirmación
       await ReservationEmail.sendConfirmationEmail({ name, email });
+      
+      await sendWhatsappNotification({
+        name,
+        phone,
+        email,
+        date,
+        time,
+      });
 
       res.status(201).json({
         message: "Reserva creada con éxito",

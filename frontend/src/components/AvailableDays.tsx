@@ -20,6 +20,11 @@ interface GroupedAvailability {
   };
 }
 
+interface DisabledSlot {
+  date: string;
+  time: string;
+}
+
 export default function AvailableDays() {
   const searchParams = useSearchParams();
   const barberId = Number(searchParams.get('barber_id'));
@@ -28,10 +33,10 @@ export default function AvailableDays() {
 
   const [availability, setAvailability] = useState<Availability[]>([]);
   const [reservedMap, setReservedMap] = useState<Record<string, string[]>>({});
+  const [disabledSlots, setDisabledSlots] = useState<DisabledSlot[]>([]);
   const [loading, setLoading] = useState(true);
   const [isReservedLoaded, setIsReservedLoaded] = useState(false);
 
-  // 1. Obtener disponibilidad
   useEffect(() => {
     if (!barberId) return;
     setLoading(true);
@@ -39,7 +44,6 @@ export default function AvailableDays() {
       .then((data) => {
         setAvailability(data);
         if (data.length === 0) {
-          // ✅ No hay disponibilidad, no hace falta buscar reservas
           setIsReservedLoaded(true);
         }
       })
@@ -47,12 +51,9 @@ export default function AvailableDays() {
       .finally(() => setLoading(false));
   }, [barberId]);
 
-
-  // 2. Obtener horarios reservados
   useEffect(() => {
     const fetchReservedSlots = async () => {
       const map: Record<string, string[]> = {};
-
       const allDates = availability.flatMap(a =>
         getUpcomingDatesForDay(a.day).map(date => date.toISOString().split('T')[0])
       );
@@ -62,18 +63,13 @@ export default function AvailableDays() {
         const baseUrl = process.env.NEXT_PUBLIC_API_URL;
         const responses = await Promise.all(
           uniqueDates.map(iso =>
-            fetch(
-              `${baseUrl}/availability/reserved-slots/${barberId}?date=${iso}`
-            )
+            fetch(`${baseUrl}/availability/reserved-slots/${barberId}?date=${iso}`)
           )
         );
-
         const data = await Promise.all(responses.map(res => res.json()));
-
         uniqueDates.forEach((iso, index) => {
           map[iso] = data[index].slots || [];
         });
-
       } catch (error) {
         console.error('Error cargando reservas:', error);
       }
@@ -85,7 +81,21 @@ export default function AvailableDays() {
     if (availability.length) fetchReservedSlots();
   }, [availability, barberId]);
 
-  // 3. Agrupar disponibilidad (igual que antes)
+  useEffect(() => {
+    const fetchDisabledSlots = async () => {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+        const res = await fetch(`${baseUrl}/disabled/${barberId}`);
+        const json = await res.json();
+        setDisabledSlots(Array.isArray(json.slots) ? json.slots : []);
+      } catch (error) {
+        console.error('Error cargando slots deshabilitados:', error);
+      }
+    };
+
+    if (barberId) fetchDisabledSlots();
+  }, [barberId]);
+
   const groupedAvailability: GroupedAvailability = availability.reduce((acc, a) => {
     const upcomingDates = getUpcomingDatesForDay(a.day);
 
@@ -102,11 +112,15 @@ export default function AvailableDays() {
         };
       }
 
-      const fullSlots = generateTimeSlots(a.start_time, a.end_time);
+      const fullSlots = generateTimeSlots(a.start_time, a.end_time, 45, date);
       const reservedSlots = reservedMap[isoDate] || [];
       const available = filterReservedSlots(fullSlots, reservedSlots);
 
-      acc[formattedDate].slots.push(...available);
+      const finalSlots = available.filter(slot => {
+        return !disabledSlots.some(d => d.date === isoDate && d.time === slot);
+      });
+
+      acc[formattedDate].slots.push(...finalSlots);
     });
 
     return acc;
@@ -117,8 +131,8 @@ export default function AvailableDays() {
       formattedDate,
       ...data,
     }))
-    .filter((entry) => entry.slots.length > 0) // ✅ solo días con turnos
-    .sort((a, b) => a.date.getTime() - b.date.getTime()); // ✅ ordenar por fecha}));
+    .filter((entry) => entry.slots.length > 0)
+    .sort((a, b) => a.date.getTime() - b.date.getTime());
 
   if (loading || !isReservedLoaded) {
     return (
@@ -138,12 +152,9 @@ export default function AvailableDays() {
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white rounded-3xl shadow-xl border border-gray-200">
-      {/* Título */}
       <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center font-sans tracking-tight">
         Seleccioná un día y turno
       </h2>
-
-      {/* Lista de días y horarios */}
       <div className="space-y-8">
         {availabilityEntries.map((entry) => (
           <div key={entry.formattedDate} className="border-b border-gray-200 pb-6 last:border-b-0">
@@ -172,6 +183,5 @@ export default function AvailableDays() {
         ))}
       </div>
     </div>
-
   );
 }

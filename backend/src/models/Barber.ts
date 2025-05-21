@@ -9,6 +9,7 @@ import {
   HasMany,
 } from "sequelize-typescript";
 import { Booking } from "./Booking";
+import { DisabledSlot } from "./DisabledSlot";
 
 export interface BarberAttributes {
   barber_id?: number;
@@ -17,9 +18,11 @@ export interface BarberAttributes {
   description: string;
 }
 
-
-@Table({ tableName: 'barber', timestamps: false })
-export class Barber extends Model<BarberAttributes> implements BarberAttributes {
+@Table({ tableName: "barber", timestamps: false })
+export class Barber
+  extends Model<BarberAttributes>
+  implements BarberAttributes
+{
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
@@ -36,4 +39,7 @@ export class Barber extends Model<BarberAttributes> implements BarberAttributes 
 
   @HasMany(() => Booking)
   bookings!: Booking[];
+
+  @HasMany(() => DisabledSlot)
+  disabledSlots!: DisabledSlot[];
 }

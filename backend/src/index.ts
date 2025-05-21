@@ -8,6 +8,7 @@ import barberAvailabilityRoutes from './routes/barberAvailabilityRoutes'
 import barberRoutes from './routes/barberRoutes'
 import serviceRoutes from './routes/serviceRoutes'
 import bookingRoutes from './routes/bookingRoutes'
+import disabledSlotsRoutes from './routes/disabledSlotsRoutes'
 import { db } from './config/database';
 
 dotenv.config()
@@ -50,6 +51,7 @@ app.use('/api/barber', barberRoutes)
 app.use('/api/service', serviceRoutes)
 app.use('/api/availability', barberAvailabilityRoutes);
 app.use('/api/booking', bookingRoutes);
+app.use('/api/disabled', disabledSlotsRoutes);
 
 //ruta de swagger
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
