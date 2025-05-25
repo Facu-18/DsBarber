@@ -1,4 +1,3 @@
-// src/models/Barber.ts
 import {
   Table,
   Column,
@@ -10,6 +9,7 @@ import {
 } from "sequelize-typescript";
 import { Booking } from "./Booking";
 import { DisabledSlot } from "./DisabledSlot";
+import { BarberAvailability } from "./BarberAvailability";
 
 export interface BarberAttributes {
   barber_id?: number;
@@ -42,4 +42,7 @@ export class Barber
 
   @HasMany(() => DisabledSlot)
   disabledSlots!: DisabledSlot[];
+
+  @HasMany(() => BarberAvailability) 
+  availabilities!: BarberAvailability[];
 }

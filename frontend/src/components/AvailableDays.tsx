@@ -1,107 +1,108 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
-import { getAvailability, Availability } from '@/src/lib/api/getAvailability';
+import { useEffect, useState } from 'react'
+import { getAvailability, Availability } from '@/src/lib/api/getAvailability'
 import {
   getUpcomingDatesForDay,
   generateTimeSlots,
   formatDate,
   filterReservedSlots,
-} from '@/src/utils/date';
-import { useSearchParams, useRouter } from 'next/navigation';
-import Spinner from './UI/Spinner';
+} from '@/src/utils/date'
+import { useSearchParams, useRouter } from 'next/navigation'
+import Spinner from './UI/Spinner'
 
 interface GroupedAvailability {
   [key: string]: {
-    date: Date;
-    isoDate: string;
-    day: string;
-    slots: string[];
-  };
+    date: Date
+    isoDate: string
+    day: string
+    slots: string[]
+  }
 }
 
 interface DisabledSlot {
-  date: string;
-  time: string;
+  date: string
+  time: string
 }
 
 export default function AvailableDays() {
-  const searchParams = useSearchParams();
-  const barberId = Number(searchParams.get('barber_id'));
-  const serviceId = searchParams.get('service_id');
-  const router = useRouter();
+  const searchParams = useSearchParams()
+  const barberId = Number(searchParams.get('barber_id'))
+  const serviceId = searchParams.get('service_id')
+  const router = useRouter()
 
-  const [availability, setAvailability] = useState<Availability[]>([]);
-  const [reservedMap, setReservedMap] = useState<Record<string, string[]>>({});
-  const [disabledSlots, setDisabledSlots] = useState<DisabledSlot[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isReservedLoaded, setIsReservedLoaded] = useState(false);
+  const [availability, setAvailability] = useState<Availability[]>([])
+  const [reservedMap, setReservedMap] = useState<Record<string, string[]>>({})
+  const [disabledSlots, setDisabledSlots] = useState<DisabledSlot[]>([])
+  const [loading, setLoading] = useState(true)
+  const [isReservedLoaded, setIsReservedLoaded] = useState(false)
 
   useEffect(() => {
-    if (!barberId) return;
-    setLoading(true);
+    if (!barberId) return
+    setLoading(true)
     getAvailability(barberId)
       .then((data) => {
-        setAvailability(data);
-        if (data.length === 0) {
-          setIsReservedLoaded(true);
-        }
+        setAvailability(data)
+        if (data.length === 0) setIsReservedLoaded(true)
       })
       .catch(console.error)
-      .finally(() => setLoading(false));
-  }, [barberId]);
+      .finally(() => setLoading(false))
+  }, [barberId])
 
   useEffect(() => {
     const fetchReservedSlots = async () => {
-      const map: Record<string, string[]> = {};
-      const allDates = availability.flatMap(a =>
-        getUpcomingDatesForDay(a.day).map(date => date.toISOString().split('T')[0])
-      );
-      const uniqueDates = [...new Set(allDates)];
+      const map: Record<string, string[]> = {}
+      const allDates = availability.flatMap((a) =>
+        getUpcomingDatesForDay(a.day).map((date) => date.toISOString().split('T')[0])
+      )
+      const uniqueDates = [...new Set(allDates)]
 
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL
         const responses = await Promise.all(
-          uniqueDates.map(iso =>
+          uniqueDates.map((iso) =>
             fetch(`${baseUrl}/availability/reserved-slots/${barberId}?date=${iso}`)
           )
-        );
-        const data = await Promise.all(responses.map(res => res.json()));
+        )
+
+        const data = await Promise.all(responses.map((res) => res.json()))
+
         uniqueDates.forEach((iso, index) => {
-          map[iso] = data[index].slots || [];
-        });
+          map[iso] = data[index].slots || []
+        })
       } catch (error) {
-        console.error('Error cargando reservas:', error);
+        console.error('Error cargando reservas:', error)
       }
 
-      setReservedMap(map);
-      setIsReservedLoaded(true);
-    };
+      setReservedMap(map)
+      setIsReservedLoaded(true)
+    }
 
-    if (availability.length) fetchReservedSlots();
-  }, [availability, barberId]);
+    if (availability.length) fetchReservedSlots()
+  }, [availability, barberId])
 
   useEffect(() => {
     const fetchDisabledSlots = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-        const res = await fetch(`${baseUrl}/disabled/${barberId}`);
-        const json = await res.json();
-        setDisabledSlots(Array.isArray(json.slots) ? json.slots : []);
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL
+        const res = await fetch(`${baseUrl}/disabled/${barberId}`)
+        const json = await res.json()
+        setDisabledSlots(Array.isArray(json.slots) ? json.slots : [])
       } catch (error) {
-        console.error('Error cargando slots deshabilitados:', error);
+        console.error('Error cargando slots deshabilitados:', error)
       }
-    };
+    }
 
-    if (barberId) fetchDisabledSlots();
-  }, [barberId]);
+    if (barberId) fetchDisabledSlots()
+  }, [barberId])
 
   const groupedAvailability: GroupedAvailability = availability.reduce((acc, a) => {
-    const upcomingDates = getUpcomingDatesForDay(a.day);
+    const upcomingDates = getUpcomingDatesForDay(a.day)
 
     upcomingDates.forEach((date) => {
-      const formattedDate = formatDate(date);
-      const isoDate = date.toISOString().split('T')[0];
+      const formattedDate = formatDate(date)
+      const isoDate = date.toISOString().split('T')[0]
+      const dayNum = date.getDay()
 
       if (!acc[formattedDate]) {
         acc[formattedDate] = {
@@ -109,37 +110,46 @@ export default function AvailableDays() {
           isoDate,
           day: a.day,
           slots: [],
-        };
+        }
       }
 
-      const fullSlots = generateTimeSlots(a.start_time, a.end_time, 45, date);
-      const reservedSlots = reservedMap[isoDate] || [];
-      const available = filterReservedSlots(fullSlots, reservedSlots);
+      let fullSlots: string[] = []
+      if (dayNum >= 2 && dayNum <= 5) {
+        // Martes a Viernes
+        fullSlots = [
+          ...generateTimeSlots('10:00', '13:00', 45, date),
+          ...generateTimeSlots('16:00', '21:00', 45, date),
+        ]
+      } else if (dayNum === 6) {
+        // Sábado
+        fullSlots = generateTimeSlots('10:00', '17:00', 45, date)
+      }
 
-      const finalSlots = available.filter(slot => {
-        return !disabledSlots.some(d => d.date === isoDate && d.time === slot);
-      });
+      const reservedSlots = reservedMap[isoDate] || []
+      const available = filterReservedSlots(fullSlots, reservedSlots)
 
-      acc[formattedDate].slots.push(...finalSlots);
-    });
+      const finalSlots = available.filter(
+        (slot) => !disabledSlots.some((d) => d.date === isoDate && d.time === slot)
+      )
 
-    return acc;
-  }, {} as GroupedAvailability);
+      acc[formattedDate].slots = Array.from(new Set([...acc[formattedDate].slots, ...finalSlots]));
+
+    })
+
+    return acc
+  }, {} as GroupedAvailability)
 
   const availabilityEntries = Object.entries(groupedAvailability)
-    .map(([formattedDate, data]) => ({
-      formattedDate,
-      ...data,
-    }))
+    .map(([formattedDate, data]) => ({ formattedDate, ...data }))
     .filter((entry) => entry.slots.length > 0)
-    .sort((a, b) => a.date.getTime() - b.date.getTime());
+    .sort((a, b) => a.date.getTime() - b.date.getTime())
 
   if (loading || !isReservedLoaded) {
     return (
       <div className="py-10 flex justify-center">
         <Spinner />
       </div>
-    );
+    )
   }
 
   if (!availability.length || availabilityEntries.length === 0) {
@@ -147,7 +157,7 @@ export default function AvailableDays() {
       <div className="text-center text-black-600 text-lg font-medium py-10">
         No hay turnos disponibles.
       </div>
-    );
+    )
   }
 
   return (
@@ -167,7 +177,7 @@ export default function AvailableDays() {
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
               {entry.slots.map((slot: string) => (
                 <button
-                  key={slot}
+                  key={`${entry.isoDate}-${slot}`}
                   className="py-2.5 px-4 text-sm font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-xl hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300 shadow-sm hover:shadow-md"
                   onClick={() =>
                     router.push(
@@ -178,10 +188,11 @@ export default function AvailableDays() {
                   {slot}
                 </button>
               ))}
+
             </div>
           </div>
         ))}
       </div>
     </div>
-  );
+  )
 }

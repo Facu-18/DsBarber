@@ -18,8 +18,12 @@ export default function ElegirServicio() {
                     <div className="flex-1">
                         <div className="flex items-center gap-4 mb-4">
                             {/* Logo */}
-                            <div className="w-14 h-14 bg-blue-900 rounded-lg flex items-center justify-center">
-                                <span className="text-white font-bold text-2xl">DS</span>
+                            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden flex items-center justify-center">
+                                <img
+                                    src="/DS_Barbershop_Logo.svg"
+                                    alt="DS Barberstudio Logo"
+                                    className="w-full h-full object-contain"
+                                />
                             </div>
                             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Ds Barberstudio</h1>
                         </div>
@@ -37,7 +41,7 @@ export default function ElegirServicio() {
                                 href="https://www.google.com.ar/maps/place/Bartolom%C3%A9+Hidalgo+1660,+X5019+C%C3%B3rdoba/@-31.3593184,-64.1539152,16.75z/data=!4m5!3m4!1s0x943299d5acbeffe7:0xf07ec6359208e65d!8m2!3d-31.3593873!4d-64.1505312?hl=es&entry=ttu&g_ep=EgoyMDI1MDUxMi4wIKXMDSoASAFQAw%3D%3D"
                                 className="text-sm text-gray-600 hover:text-blue-700 transition-colors duration-200"
                             >
-                                Bartolomé Hidalgo 1660, Córdoba Parque Liceo III
+                                Bartolomé Hidalgo 1669, Córdoba Parque Liceo III
                             </Link>
                             <p className="text-sm text-blue-600 mt-1">+54 9 3512291106</p>
                             <div className="flex gap-3 mt-4 items-center">
@@ -47,7 +51,7 @@ export default function ElegirServicio() {
                                         <div className="w-8 h-8 rounded-full overflow-hidden">
                                             <Image
                                                 alt="Foto de Darío"
-                                                src="/foto1.jpeg"
+                                                src="/imageBarber2.jpeg"
                                                 width={32}
                                                 height={32}
                                                 className="object-cover w-full h-full"
@@ -58,14 +62,14 @@ export default function ElegirServicio() {
                                     <div className="flex items-center gap-1.5">
                                         <div className="w-8 h-8 rounded-full overflow-hidden">
                                             <Image
-                                                alt="Foto de Agustín"
-                                                src="/foto1.jpeg"
+                                                alt="Foto de Maxi"
+                                                src="/imageBarber1.jpeg"
                                                 width={32}
                                                 height={32}
                                                 className="object-cover w-full h-full"
                                             />
                                         </div>
-                                        <span className="text-sm text-gray-600">Agustín</span>
+                                        <span className="text-sm text-gray-600">Maxi</span>
                                     </div>
                                 </div>
                             </div>

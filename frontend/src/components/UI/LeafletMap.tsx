@@ -9,7 +9,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 })
 
-const position: [number, number] = [-31.3593184, -64.1539152] // Córdoba
+const position: [number, number] = [-31.35942, -64.152489] // Córdoba
 
 export default function LeafletMap() {
   return (
@@ -19,7 +19,7 @@ export default function LeafletMap() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <Marker position={position}>
-        <Popup>Bartolomé Hidalgo 1660</Popup>
+        <Popup>Bartolomé Hidalgo 1669</Popup>
       </Marker>
     </MapContainer>
   )

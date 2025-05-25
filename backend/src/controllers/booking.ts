@@ -4,6 +4,7 @@ import { ClientInfo } from "../models/ClientInfo";
 import { Service } from "../models/Service";
 import { ReservationEmail } from "../emails/ReservationEmail";
 import { sendWhatsappNotification } from "../utils/sendWhatsapp";
+import { deleteOldBookings } from "../utils/cleanup";
 
 export class BookingController {
   static createBooking = async (req: Request, res: Response) => {
@@ -49,6 +50,7 @@ export class BookingController {
 
   static getAllBookings = async (req: Request, res: Response) => {
     try {
+      await deleteOldBookings();
       const barber_id = Number(req.params.barberId);
 
       const bookings = await Booking.findAll({

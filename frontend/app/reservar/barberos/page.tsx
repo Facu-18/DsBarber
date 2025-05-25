@@ -16,8 +16,12 @@ export default function SeleccionarBarbero() {
         {/* Izquierda: Logo y descripción */}
         <div className="flex-1">
           <div className="flex items-center gap-3 sm:gap-4 mb-4">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-blue-900 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl sm:text-2xl">DS</span>
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden flex items-center justify-center">
+              <img
+                src="/DS_Barbershop_Logo.svg"
+                alt="DS Barberstudio Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Ds Barberstudio</h1>
           </div>
@@ -55,7 +59,7 @@ export default function SeleccionarBarbero() {
               target="_blank"
               className="block text-sm text-gray-600 hover:text-blue-700 transition-colors duration-200"
             >
-              Bartolomé Hidalgo 1660, Córdoba Parque Liceo III
+              Bartolomé Hidalgo 1669, Córdoba Parque Liceo III
             </Link>
             <p className="text-sm text-blue-600 mt-1">+54 9 3512291106</p>
           </div>
@@ -66,7 +70,7 @@ export default function SeleccionarBarbero() {
       <Suspense>
         <InfoService />
       </Suspense>
-      
+
       <div className="mt-8">
         <Suspense fallback={<p className="text-center text-gray-500">Cargando barberos...</p>}>
           <SelectBarber />

@@ -10,9 +10,10 @@ interface DisabledSlot {
 
 interface Props {
     barberId: number
+    adminKey: string
 }
 
-export default function DisableSlotManager({ barberId }: Props) {
+export default function DisableSlotManager({ barberId, adminKey }: Props) {
     const [disabledSlots, setDisabledSlots] = useState<DisabledSlot[]>([])
     const [loading, setLoading] = useState(true)
 

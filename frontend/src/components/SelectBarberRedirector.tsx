@@ -1,12 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Barber } from '@/src/lib/api/getBarbres'
 
 export default function SelectBarberRedirector() {
   const [barbers, setBarbers] = useState<Barber[]>([])
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const adminKey = searchParams.get('admin_key')
 
   useEffect(() => {
     const fetchBarbers = async () => {
@@ -26,7 +28,7 @@ export default function SelectBarberRedirector() {
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const barberId = e.target.value
     if (barberId) {
-      router.push(`/admin-panel-ds/horarios/gestionar?barber_id=${barberId}`)
+      router.push(`/admin-panel-ds/horarios/gestionar?barber_id=${barberId}&admin_key=${adminKey}`)
     }
   }
 
@@ -44,7 +46,7 @@ export default function SelectBarberRedirector() {
         {barbers.map((barber) => (
           <option key={barber.barber_id} value={barber.barber_id}>
             {barber.name}
-          </option> 
+          </option>
         ))}
       </select>
     </div>

@@ -117,13 +117,8 @@ export class BarberController {
     try {
       const { barber } = req;
 
-      if (!barber) {
-        res.status(404).json({ message: "El barbero no fue encontrado" });
-        return;
-      }
-
       // Eliminar registo del barbero
-      await Barber.destroy({ where: { barber_id: barber.barber_id } });
+      await Barber.destroy({ where: { barber_id: barber!.barber_id } });
 
       res.json("Barbero Eliminado Correctamente");
     } catch (error) {

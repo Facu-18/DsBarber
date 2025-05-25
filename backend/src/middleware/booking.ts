@@ -45,9 +45,11 @@ export const validateBookingInput = async (
     .withMessage("Debe ser un email válido")
     .run(req);
   await body("phone")
-    .notEmpty()
-    .withMessage("El teléfono es obligatorio")
-    .run(req);
+  .notEmpty()
+  .withMessage("El teléfono es obligatorio")
+  .matches(/^\+54 9\d{10}$/)
+  .withMessage("El teléfono debe comenzar con +54 9 y tener 10 dígitos")
+  .run(req);
 
   next();
 };
