@@ -4,6 +4,7 @@ import './globals.css';
 import Link from 'next/link';
 import MobileMenu from '@/src/components/MobileMenu';
 import { ToastContainer } from 'react-toastify';
+import Image from 'next/image';
 
 const outfit = Outfit({ subsets: ['latin'] });
 
@@ -27,11 +28,7 @@ export default function RootLayout({
             <div className="flex items-center gap-3">
               <Link href="/" className="flex items-center justify-center">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden flex items-center justify-center">
-                  <img
-                    src="/DS_Barbershop_Logo.svg"
-                    alt="DS Barberstudio Logo"
-                    className="w-full h-full object-contain"
-                  />
+                 <Image src="/DS_Barbershop_Logo.svg" alt="Logo" width={150} height={60} priority />
                 </div>
               </Link>
               <div className="flex flex-col leading-none">

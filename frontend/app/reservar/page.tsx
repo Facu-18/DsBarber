@@ -19,11 +19,7 @@ export default function ElegirServicio() {
                         <div className="flex items-center gap-4 mb-4">
                             {/* Logo */}
                             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden flex items-center justify-center">
-                                <img
-                                    src="/DS_Barbershop_Logo.svg"
-                                    alt="DS Barberstudio Logo"
-                                    className="w-full h-full object-contain"
-                                />
+                                <Image src="/DS_Barbershop_Logo.svg" alt="Logo" width={150} height={60} priority />
                             </div>
                             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Ds Barberstudio</h1>
                         </div>

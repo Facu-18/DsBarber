@@ -1,31 +1,26 @@
 import Link from 'next/link';
+import Image from 'next/image'
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-100 flex flex-col items-center justify-center py-12 sm:py-16 px-4">
-      <div className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg p-8 text-center">
+    <div className="min-h-screen bg-[url('/bg-image.jpg')] bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md mx-auto bg-white bg-opacity-90 rounded-2xl shadow-lg p-8 sm:p-10 text-center">
         {/* Logo */}
         <div className="flex justify-center mb-6">
           <div className="w-36 h-36 sm:w-48 sm:h-48 rounded-full overflow-hidden flex items-center justify-center">
-            <img
-              src="/DS_Barbershop_Logo.svg"
-              alt="DS Barberstudio Logo"
-              className="w-full h-full object-contain"
-            />
+            <Image src="/DS_Barbershop_Logo.svg" alt="Logo" width={150} height={60} priority />
           </div>
         </div>
 
         {/* Título */}
         <h1 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-2">Ds-barberstudio</h1>
-        <p className="text-lg sm:text-xl text-blue-900 mb-8">Somos Ds Barberstudio</p>
-
-
+        <p className="text-lg sm:text-xl text-blue-800 mb-8">Somos Ds Barberstudio</p>
 
         {/* Botones */}
         <div className="space-y-4">
           <Link
             href="/reservar"
-            className="w-full bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2 font-medium"
+            className="w-full bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2 font-medium text-sm sm:text-base"
           >
             <svg
               className="w-5 h-5 sm:w-6 sm:h-6"
@@ -47,7 +42,7 @@ export default function HomePage() {
           <Link
             href="https://wa.me/543512291106"
             target="_blank"
-            className="w-full bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2 font-medium"
+            className="w-full bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2 font-medium text-sm sm:text-base"
           >
             <svg
               className="w-5 h-5 sm:w-6 sm:h-6"
@@ -63,7 +58,7 @@ export default function HomePage() {
           <Link
             href="https://www.google.com.ar/maps/place/Bartolom%C3%A9+Hidalgo+1660,+X5019+C%C3%B3rdoba/@-31.3593184,-64.1539152,16.75z/data=!4m5!3m4!1s0x943299d5acbeffe7:0xf07ec6359208e65d!8m2!3d-31.3593873!4d-64.1505312?hl=es&entry=ttu&g_ep=EgoyMDI1MDUxMi4wIKXMDSoASAFQAw%3D%3D"
             target="_blank"
-            className="w-full bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2 font-medium"
+            className="w-full bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2 font-medium text-sm sm:text-base"
           >
             <svg
               className="w-5 h-5 sm:w-6 sm:h-6"
@@ -83,13 +78,14 @@ export default function HomePage() {
           </Link>
 
           {/* Subtítulo */}
-          <h2 className="text-lg sm:text-xl font-semibold text-blue-900 mb-4">Cosas que pueden interesarte</h2>
+          <h2 className="text-lg sm:text-xl font-semibold text-blue-900 mb-4 mt-6">
+            Cosas que pueden interesarte
+          </h2>
 
           <Link
             href="/tatuajes"
-            className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-500 transition-colors duration-200 flex items-center justify-center gap-2 font-medium"
+            className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-500 transition-colors duration-200 flex items-center justify-center gap-2 font-medium text-sm sm:text-base"
           >
-            
             Apartado Tatuajes
           </Link>
         </div>

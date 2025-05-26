@@ -3,7 +3,7 @@ import ContactForm from '@/src/components/ContactForm'
 import Map from '@/src/components/UI/Map'
 import Link from 'next/link'
 import { Suspense } from 'react'
-
+import Image from 'next/image'
 
 export default function Contacto() {
   return (
@@ -15,11 +15,7 @@ export default function Contacto() {
         <div className="flex-1">
           <div className="flex items-center gap-3 sm:gap-4 mb-4">
             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden flex items-center justify-center">
-              <img
-                src="/DS_Barbershop_Logo.svg"
-                alt="DS Barberstudio Logo"
-                className="w-full h-full object-contain"
-              />
+              <Image src="/DS_Barbershop_Logo.svg" alt="Logo" width={150} height={60} priority />
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Ds Barberstudio</h1>
           </div>
