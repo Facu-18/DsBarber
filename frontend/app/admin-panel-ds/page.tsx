@@ -1,4 +1,5 @@
 import AdminComponent from "@/src/components/AdminComponent";
+import { Suspense } from "react";
 
 export default function AdminPage() {
   return (
@@ -7,7 +8,9 @@ export default function AdminPage() {
         <h1 className="text-3xl sm:text-4xl font-bold text-blue-900 mb-8 text-center">
           Bienvenido, Admin
         </h1>
-        <AdminComponent />
+        <Suspense>
+          <AdminComponent />
+        </Suspense>
       </div>
     </div>
   );

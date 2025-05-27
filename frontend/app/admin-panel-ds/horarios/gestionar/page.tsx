@@ -1,18 +1,13 @@
-'use client'
+// app/admin-panel-ds/horarios/gestionar/page.tsx
+import { Suspense } from 'react'
+import BarberSlotPageClient from '@/src/components/BarberSlotPageClient'
 
-import DisableSlotManager from '@/src/components/DisableSlotsManager'
-import { useSearchParams } from 'next/navigation'
-
-export default function AdminPage() {
-  const searchParams = useSearchParams()
-  const barberId = Number(searchParams.get('barber_id'))
-  const adminKey = searchParams.get('admin_key')
-
-  if (!barberId) return <p className="text-red-600">Barbero no encontrado en los parámetros.</p>
-
+export default function AdminGestionarPage() {
   return (
     <div className="p-10 bg-gray-100 min-h-screen">
-      <DisableSlotManager barberId={barberId} adminKey={adminKey!} />
+      <Suspense fallback={<p className="text-center text-gray-600">Cargando gestor de horarios...</p>}>
+        <BarberSlotPageClient />
+      </Suspense>
     </div>
   )
 }
