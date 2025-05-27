@@ -24,7 +24,8 @@ export class BookingController {
       // Obtener info del barbero
       const barber = await Barber.findByPk(barber_id);
       if (!barber) {
-        return res.status(404).json({ message: "Barbero no encontrado" });
+        res.status(404).json({ message: "Barbero no encontrado" });
+        return 
       }
 
       // Crear la reserva
