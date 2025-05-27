@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { transport } from "../config/email";
 import dotenv from "dotenv";
 dotenv.config();
