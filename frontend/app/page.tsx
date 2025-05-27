@@ -83,7 +83,7 @@ export default function HomePage() {
           </h2>
 
           <Link
-            href="/tatuajes"
+            href="/tatto-page"
             className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-500 transition-colors duration-200 flex items-center justify-center gap-2 font-medium text-sm sm:text-base"
           >
             Apartado Tatuajes

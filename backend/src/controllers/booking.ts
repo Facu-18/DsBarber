@@ -5,6 +5,7 @@ import { Service } from "../models/Service";
 import { ReservationEmail } from "../emails/ReservationEmail";
 import { sendWhatsappNotification } from "../utils/sendWhatsapp";
 import { deleteOldBookings } from "../utils/cleanup";
+import { Barber } from "../models/Barber";
 
 export class BookingController {
   static createBooking = async (req: Request, res: Response) => {
@@ -28,8 +29,8 @@ export class BookingController {
       });
 
       // 📧 Enviar email de confirmación
-      await ReservationEmail.sendConfirmationEmail({ name, email });
-      
+      await ReservationEmail.sendConfirmationEmail({ name, email, date, time});
+
       await sendWhatsappNotification({
         name,
         phone,
@@ -89,6 +90,43 @@ export class BookingController {
     } catch (error) {
       console.error("Error al obtener reserva:", error);
       res.status(500).json({ message: "Error interno del servidor" });
+    }
+  };
+
+  static getBookingByDetails = async (req: Request, res: Response) => {
+    const { email, date, time } = req.query;
+
+    if (!email || !date || !time) {
+      res.status(400).json({ message: "Faltan parámetros" });
+      return 
+    }
+
+    try {
+      const booking = await Booking.findOne({
+        include: [
+          {
+            model: ClientInfo,
+            where: { email: email.toString() },
+            attributes: ["name", "email", "phone"],
+          },
+          { model: Barber, attributes: ["name"] },
+          { model: Service, attributes: ["name", "price"] },
+        ],
+        where: {
+          date: date.toString(),
+          time: time.toString(),
+        },
+      });
+
+      if (!booking) {
+        res.status(404).json({ message: "Reserva no encontrada" });
+        return 
+      }
+
+      res.json(booking);
+    } catch (error) {
+      console.error("Error al buscar reserva:", error);
+      res.status(500).json({ message: "Error del servidor" });
     }
   };
 

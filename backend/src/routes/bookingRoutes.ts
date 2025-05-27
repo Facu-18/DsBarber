@@ -225,4 +225,6 @@ router.put(
 
 router.delete("/:booking_id", BookingController.deleteBooking);
 
+router.get('/view', BookingController.getBookingByDetails);
+
 export default router;
