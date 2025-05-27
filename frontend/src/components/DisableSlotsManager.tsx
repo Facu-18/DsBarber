@@ -10,7 +10,7 @@ interface DisabledSlot {
 
 interface Props {
     barberId: number
-   
+    adminKey: string;
 }
 
 export default function DisableSlotManager({ barberId }: Props) {
