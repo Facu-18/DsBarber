@@ -10,10 +10,10 @@ interface DisabledSlot {
 
 interface Props {
     barberId: number
-    adminKey: string
+   
 }
 
-export default function DisableSlotManager({ barberId, adminKey }: Props) {
+export default function DisableSlotManager({ barberId }: Props) {
     const [disabledSlots, setDisabledSlots] = useState<DisabledSlot[]>([])
     const [loading, setLoading] = useState(true)
 
@@ -78,7 +78,7 @@ export default function DisableSlotManager({ barberId, adminKey }: Props) {
                 return dates.map((date) => {
                     const iso = date.toISOString().split('T')[0];
                     const formatted = formatDate(date);
-                    const slots = generateTimeSlots(start, end, 45, date);
+                    const slots = generateTimeSlots(start, end, date);
 
                     return (
                         <div key={iso} className="border border-gray-200 rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-200">

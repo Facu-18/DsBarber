@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function TattooLandingPage() {
   return (
@@ -17,10 +18,13 @@ export default function TattooLandingPage() {
         {/* Sección del tatuador */}
         <div className="bg-white bg-opacity-90 rounded-2xl shadow-lg p-6 sm:p-8 text-center mb-12 sm:mb-16">
           <div className="w-40 h-40 sm:w-48 sm:h-48 mx-auto rounded-full overflow-hidden mb-6">
-            <img
+            <Image
               src="/imageBarber1.jpeg"
               alt="Foto del tatuador"
+              width={192}
+              height={192}
               className="w-full h-full object-cover"
+              priority
             />
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-4">Maxi Taborda</h2>
@@ -33,9 +37,11 @@ export default function TattooLandingPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12 sm:mb-16">
           {/* Trabajo 1 */}
           <div className="bg-white bg-opacity-90 rounded-2xl shadow-lg overflow-hidden">
-            <img
+            <Image
               src="/tatto1.jpeg"
               alt="Tatuaje geométrico"
+              width={640}
+              height={320}
               className="w-full h-64 sm:h-80 object-cover"
             />
             <div className="p-6">
@@ -48,9 +54,11 @@ export default function TattooLandingPage() {
 
           {/* Trabajo 2 */}
           <div className="bg-white bg-opacity-90 rounded-2xl shadow-lg overflow-hidden">
-            <img
+            <Image
               src="/tatto2.jpeg"
               alt="Tatuaje realista"
+              width={640}
+              height={320}
               className="w-full h-64 sm:h-80 object-cover"
             />
             <div className="p-6">
@@ -63,9 +71,11 @@ export default function TattooLandingPage() {
 
           {/* Trabajo 3 */}
           <div className="bg-white bg-opacity-90 rounded-2xl shadow-lg overflow-hidden">
-            <img
+            <Image
               src="/tatto3.jpeg"
               alt="Tatuaje tradicional"
+              width={640}
+              height={320}
               className="w-full h-64 sm:h-80 object-cover"
             />
             <div className="p-6">
@@ -78,9 +88,11 @@ export default function TattooLandingPage() {
 
           {/* Trabajo 4 */}
           <div className="bg-white bg-opacity-90 rounded-2xl shadow-lg overflow-hidden">
-            <img
+            <Image
               src="/tatto4.jpeg"
               alt="Tatuaje minimalista"
+              width={640}
+              height={320}
               className="w-full h-64 sm:h-80 object-cover"
             />
             <div className="p-6">

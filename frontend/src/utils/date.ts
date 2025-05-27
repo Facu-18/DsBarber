@@ -51,9 +51,9 @@ export function formatTime(date: Date): string {
 export function generateTimeSlots(
   start: string,
   end: string,
-  stepMinutes: number = 45,
   dateContext?: Date
 ): string[] {
+
   if (!dateContext) return [];
 
   const slots: string[] = [];

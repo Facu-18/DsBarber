@@ -65,7 +65,7 @@ export async function createBooking(
   } catch {
     return {
       errors: [],
-      success: 'Reserva creada correctamente.',
+      success: 'Reserva confirmada te enviamos un email revisa la bandeja y spam.',
     }
   }
 }

@@ -117,12 +117,12 @@ export default function AvailableDays() {
       if (dayNum >= 2 && dayNum <= 5) {
         // Martes a Viernes
         fullSlots = [
-          ...generateTimeSlots('10:00', '13:00', 45, date),
-          ...generateTimeSlots('16:00', '21:00', 45, date),
+          ...generateTimeSlots('10:00', '13:00', date),
+          ...generateTimeSlots('16:00', '21:00',  date),
         ]
       } else if (dayNum === 6) {
         // Sábado
-        fullSlots = generateTimeSlots('10:00', '17:00', 45, date)
+        fullSlots = generateTimeSlots('10:00', '17:00',  date)
       }
 
       const reservedSlots = reservedMap[isoDate] || []
