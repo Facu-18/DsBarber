@@ -15,11 +15,19 @@ export class BookingController {
       const { date, name, email, phone } = req.body;
       const time = (req as any).slotTime;
 
+      // Buscar o crear el cliente
       let client = await ClientInfo.findOne({ where: { email } });
       if (!client) {
         client = await ClientInfo.create({ name, email, phone });
       }
 
+      // Obtener info del barbero
+      const barber = await Barber.findByPk(barber_id);
+      if (!barber) {
+        return res.status(404).json({ message: "Barbero no encontrado" });
+      }
+
+      // Crear la reserva
       const booking = await Booking.create({
         barber_id,
         service_id,
@@ -28,15 +36,17 @@ export class BookingController {
         time,
       });
 
-      // 📧 Enviar email de confirmación
-      await ReservationEmail.sendConfirmationEmail({ name, email, date, time});
+      // Enviar email
+      await ReservationEmail.sendConfirmationEmail({ name, email, date, time });
 
+      // Enviar WhatsApp incluyendo el nombre del barbero
       await sendWhatsappNotification({
         name,
         phone,
         email,
         date,
         time,
+        barberName: barber.name,
       });
 
       res.status(201).json({
@@ -98,7 +108,7 @@ export class BookingController {
 
     if (!email || !date || !time) {
       res.status(400).json({ message: "Faltan parámetros" });
-      return 
+      return;
     }
 
     try {
@@ -120,7 +130,7 @@ export class BookingController {
 
       if (!booking) {
         res.status(404).json({ message: "Reserva no encontrada" });
-        return 
+        return;
       }
 
       res.json(booking);
