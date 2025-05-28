@@ -56,7 +56,7 @@ export default function HomePage() {
           </Link>
 
           <Link
-            href="https://www.google.com.ar/maps/place/Bartolom%C3%A9+Hidalgo+1660,+X5019+C%C3%B3rdoba/@-31.3593184,-64.1539152,16.75z/data=!4m5!3m4!1s0x943299d5acbeffe7:0xf07ec6359208e65d!8m2!3d-31.3593873!4d-64.1505312?hl=es&entry=ttu&g_ep=EgoyMDI1MDUxMi4wIKXMDSoASAFQAw%3D%3D"
+            href="https://www.google.com.ar/maps/place/Bartolom%C3%A9+Hidalgo+1669,+X5019+C%C3%B3rdoba/@-31.3556992,-64.1630208,14z/data=!4m5!3m4!1s0x943299d5a7b68867:0xb72e89e3af399bfc!8m2!3d-31.3594246!4d-64.1499141?hl=es&entry=ttu&g_ep=EgoyMDI1MDUyMS4wIKXMDSoJLDEwMjExNDUzSAFQAw%3D%3D"
             target="_blank"
             className="w-full bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2 font-medium text-sm sm:text-base"
           >
