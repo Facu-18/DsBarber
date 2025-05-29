@@ -77,13 +77,20 @@ export default function ContactForm() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono</label>
-            <input
-              name="phone"
-              disabled={isSubmitting}
-              defaultValue="+54 9"
-              required
-              className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm"
-            />
+            <div className="flex">
+              <span className="inline-flex items-center px-3 rounded-l-lg border border-gray-200 bg-gray-100 text-sm text-gray-700">
+                +54 9
+              </span>
+              <input
+                name="phone"
+                disabled={isSubmitting}
+                required
+                pattern="[0-9]{6,10}"
+                title="Ingresa tu número sin el código de país"
+                className="w-full border border-l-0 border-gray-200 rounded-r-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300 transition-all duration-200"
+                placeholder="123456789"
+              />
+            </div>
           </div>
         </div>
 
