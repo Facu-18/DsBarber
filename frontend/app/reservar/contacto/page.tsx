@@ -1,4 +1,3 @@
-// src/app/reservar/contacto/page.tsx
 import ContactForm from '@/src/components/ContactForm'
 import Map from '@/src/components/UI/Map'
 import Link from 'next/link'

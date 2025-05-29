@@ -2,39 +2,41 @@
 
 import { useSearchParams } from 'next/navigation'
 import { createBooking } from '@/src/actions/create-booking-action'
-import { useActionState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-
-type BookingActionState = {
-  errors: string[]
-  success: string
-}
 
 export default function ContactForm() {
   const searchParams = useSearchParams()
-
   const serviceId = searchParams.get('service_id') || ''
   const barberId = searchParams.get('barber_id') || ''
   const date = searchParams.get('date') || ''
   const time = searchParams.get('time') || ''
 
-  const initialState: BookingActionState = { errors: [], success: '' }
-  const [state, dispatch] = useActionState(createBooking, initialState)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  useEffect(() => {
-    if (state.success) {
-      toast.success(state.success)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    const formData = new FormData(e.currentTarget)
+    const result = await createBooking({ errors: [], success: '' }, formData)
+
+    if (result.success) {
+      toast.success(result.success)
+      e.currentTarget.reset()
     }
 
-    if (state.errors.length > 0) {
-      state.errors.forEach((error) => toast.error(error))
+    if (result.errors.length > 0) {
+      result.errors.forEach((e) => toast.error(e))
     }
-  }, [state])
+
+    setIsSubmitting(false)
+  }
 
   return (
     <div className="max-w-md mx-auto p-4 sm:p-6">
       <form
-        action={dispatch}
+        onSubmit={handleSubmit}
         className="bg-white border border-gray-100 rounded-2xl shadow-lg p-6 sm:p-8 space-y-6"
       >
         <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-6 font-sans tracking-wide">
@@ -58,36 +60,46 @@ export default function ContactForm() {
             <label className="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
             <input
               name="name"
-              className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300 transition-all duration-200 placeholder-gray-400"
-              placeholder="Ingresa tu nombre"
+              disabled={isSubmitting}
+              required
+              className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm"
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
             <input
               type="email"
               name="email"
-              className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300 transition-all duration-200 placeholder-gray-400"
-              placeholder="Ingresa tu email"
+              disabled={isSubmitting}
+              required
+              className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm"
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono</label>
             <input
               name="phone"
+              disabled={isSubmitting}
               defaultValue="+54 9"
-              className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300 transition-all duration-200 placeholder-gray-400"
+              required
+              className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm"
             />
           </div>
         </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2.5 rounded-xl hover:bg-blue-700 transition-all duration-200 font-medium text-sm sm:text-base disabled:bg-blue-400 disabled:cursor-not-allowed"
+          disabled={isSubmitting}
+          className="w-full bg-blue-600 text-white py-2.5 rounded-xl hover:bg-blue-700 transition-all duration-200 font-medium text-sm sm:text-base disabled:bg-blue-400 disabled:cursor-not-allowed flex justify-center items-center gap-2"
         >
-          Reservar
+          {isSubmitting ? (
+            <>
+              <span className="animate-spin inline-block h-5 w-5 border-4 border-t-transparent border-white rounded-full"></span>
+              <span>Enviando...</span>
+            </>
+          ) : (
+            'Reservar'
+          )}
         </button>
       </form>
     </div>

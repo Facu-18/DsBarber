@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[url('/bg-image.jpg')] bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md mx-auto bg-white bg-opacity-90 rounded-2xl shadow-lg p-8 sm:p-10 text-center">
         {/* Logo */}
         <div className="flex justify-center mb-6">
