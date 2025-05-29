@@ -16,14 +16,21 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const form = e.currentTarget
     setIsSubmitting(true)
 
-    const formData = new FormData(e.currentTarget)
+    const formData = new FormData(form)
+
+    // Construir el teléfono completo +54 9XXXXXXXXXX
+    const rawPhone = formData.get('rawPhone')?.toString().trim() || ''
+    formData.set('phone', `+54 9${rawPhone}`)
+    formData.delete('rawPhone')
+
     const result = await createBooking({ errors: [], success: '' }, formData)
 
     if (result.success) {
       toast.success(result.success)
-      e.currentTarget.reset()
+      form.reset()
     }
 
     if (result.errors.length > 0) {
@@ -79,16 +86,17 @@ export default function ContactForm() {
             <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono</label>
             <div className="flex">
               <span className="inline-flex items-center px-3 rounded-l-lg border border-gray-200 bg-gray-100 text-sm text-gray-700">
-                +54 9
+                +549
               </span>
               <input
-                name="phone"
+                name="rawPhone"
                 disabled={isSubmitting}
                 required
-                pattern="[0-9]{6,10}"
-                title="Ingresa tu número sin el código de país"
+                pattern="[0-9]{10}"
+                maxLength={10}
+                title="Ingresa 10 dígitos del número sin espacios ni prefijo"
                 className="w-full border border-l-0 border-gray-200 rounded-r-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300 transition-all duration-200"
-                placeholder="123456789"
+                placeholder="3516604374"
               />
             </div>
           </div>
