@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation'
 import { createBooking } from '@/src/actions/create-booking-action'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 
 export default function ContactForm() {
