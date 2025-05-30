@@ -20,7 +20,7 @@ export default function DisableSlotManager({ barberId }: Props) {
     const start = '09:00'
     const end = '21:00'
 
-    const weekdays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes']
+    const weekdays = ['Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado']
 
     useEffect(() => {
         const fetchDisabled = async () => {
