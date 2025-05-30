@@ -1,4 +1,5 @@
 import express from 'express';
+import Router from 'express'
 import dotenv from 'dotenv'
 import colors from 'colors'
 import cors from 'cors'
@@ -12,6 +13,8 @@ import disabledSlotsRoutes from './routes/disabledSlotsRoutes'
 import { db } from './config/database';
 
 dotenv.config()
+
+const router = Router()
 
 async function connectDB() {
   try{
@@ -43,6 +46,7 @@ app.use(cors({
     }
   }
 }));
+
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
@@ -52,6 +56,12 @@ app.use('/api/service', serviceRoutes)
 app.use('/api/availability', barberAvailabilityRoutes);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/disabled', disabledSlotsRoutes);
+app.use('/', router);
+
+// Crear Ping para evitar sleep del backend
+router.get('/ping', (req, res) => {
+  res.status(200).send('OK');
+});
 
 //ruta de swagger
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
