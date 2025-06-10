@@ -72,26 +72,26 @@ export default function DisableSlotManager({ barberId }: Props) {
     if (loading) return <p className="text-center">Cargando horarios...</p>
 
     return (
-        <div className="space-y-10">
+        <div className="space-y-8 max-w-5xl mx-auto p-4">
             {weekdays.map((day) => {
-                const dates = getUpcomingDatesForDay(day, 2); // solo los próximos 2 por día
+                const dates = getUpcomingDatesForDay(day); // solo los próximos 2 por día
                 return dates.map((date) => {
                     const iso = date.toISOString().split('T')[0];
                     const formatted = formatDate(date);
                     const slots = generateTimeSlots(start, end, date);
 
                     return (
-                        <div key={iso} className="border border-gray-200 rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-200">
-                            <h3 className="text-lg font-bold text-gray-900 mb-4">{day}, {formatted}</h3>
-                            <div className="flex flex-wrap gap-3">
+                        <div key={iso} className="border border-gray-100 rounded-3xl p-8 bg-gradient-to-br from-white to-gray-50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
+                            <h3 className="text-xl font-semibold text-gray-800 mb-6 tracking-tight">{day}, <span className="text-gray-600">{formatted}</span></h3>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                                 {slots.map((slot) => (
                                     <button
                                         key={slot}
                                         onClick={() => toggleSlot(iso, slot)}
-                                        className={`px-4 py-2 rounded-xl text-sm border ${isDisabled(iso, slot)
-                                            ? 'bg-red-500 text-white border-red-500 cursor-not-allowed opacity-75'
-                                            : 'bg-blue-50 text-gray-900 border-blue-200 hover:bg-blue-100'
-                                            } transition-all duration-200`}
+                                        className={`px-5 py-2.5 rounded-lg text-sm font-medium border transition-all duration-200 ease-in-out ${isDisabled(iso, slot)
+                                                ? 'bg-red-100 text-red-800 border-red-200 cursor-not-allowed opacity-80'
+                                                : 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700 hover:scale-105 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+                                            }`}
                                     >
                                         {slot}
                                     </button>

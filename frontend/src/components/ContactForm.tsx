@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation'
 import { createBooking } from '@/src/actions/create-booking-action'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { formatToDDMMYYYY, parseLocalDateFromYYYYMMDD } from '../utils/date'
 
 export default function ContactForm() {
   const searchParams = useSearchParams()
@@ -52,14 +53,14 @@ export default function ContactForm() {
 
         <div className="bg-gray-50 rounded-xl p-4 mb-6">
           <p className="text-sm text-gray-600">
-            <span className="font-medium text-gray-800">Fecha:</span> {date} <br />
+            <span className="font-medium text-gray-800">Fecha:</span> {formatToDDMMYYYY(parseLocalDateFromYYYYMMDD(date))} <br />
             <span className="font-medium text-gray-800">Hora:</span> {time}
           </p>
         </div>
 
         <input type="hidden" name="barberId" value={barberId} />
         <input type="hidden" name="serviceId" value={serviceId} />
-        <input type="hidden" name="date" value={date} />
+        <input type="hidden" name="date" value={ date} />
         <input type="hidden" name="time" value={time} />
 
         <div className="space-y-5">

@@ -1,21 +1,23 @@
 // src/utils/date.ts
-export function getUpcomingDatesForDay(
-  dayName: string,
-  count: number = 7
-): Date[] {
+function addDays(baseDate: Date, days: number): Date {
+  const copy = new Date(baseDate);
+  copy.setDate(copy.getDate() + days);
+  return copy;
+}
+
+export function getUpcomingDatesForDay(dayName: string): Date[] {
   const targetDay = getDayNumberFromName(dayName);
   const today = new Date();
-  const results: Date[] = [];
+  today.setHours(0, 0, 0, 0); // Limpiar hora
 
-  const date = new Date(today);
-  while (results.length < count) {
+  for (let i = 0; i < 7; i++) {
+    const date = addDays(today, i);
     if (date.getDay() === targetDay) {
-      results.push(new Date(date));
+      return [date]; // Solo queremos la primera coincidencia
     }
-    date.setDate(date.getDate() + 1);
   }
 
-  return results.slice(0, 1);
+  return []; // En caso de no encontrar (muy raro)
 }
 
 function getDayNumberFromName(day: string): number {
@@ -53,7 +55,6 @@ export function generateTimeSlots(
   end: string,
   dateContext?: Date
 ): string[] {
-
   if (!dateContext) return [];
 
   const slots: string[] = [];
@@ -64,8 +65,12 @@ export function generateTimeSlots(
     const [endHour, endMin] = end.split(":").map(Number);
 
     const now = new Date();
-    const todayIso = now.toISOString().split("T")[0];
-    const isToday = dateContext.toISOString().split("T")[0] === todayIso;
+    const isSameDay = (a: Date, b: Date) =>
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate();
+
+    const isToday = isSameDay(dateContext, now);
 
     const startTime = new Date(dateContext);
     startTime.setHours(startHour, startMin, 0, 0);
@@ -104,4 +109,26 @@ export function filterReservedSlots(
   const reservedSet = new Set(normalizedReserved);
 
   return all.filter((slot) => !reservedSet.has(slot));
+}
+
+export function formatToDDMMYYYY(date: Date): string {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // +1 porque enero es 0
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
+export function parseLocalDateFromYYYYMMDD(dateString: string): Date {
+  const [year, month, day] = dateString.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
+export function formatYYYYMMDDToDDMMYYYY(dateStr: string): string {
+  const [year, month, day] = dateStr.split("-");
+  return `${day}-${month}-${year}`;
+}
+
+export function parseYYYYDDMM(dateStr: string): Date {
+  const [year, day, month] = dateStr.split("-").map(Number);
+  return new Date(year, month - 1, day);
 }
