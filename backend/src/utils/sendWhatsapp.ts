@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios from "axios";
+import { formatToDDMMYYYY } from "./date";
 
 interface WhatsAppMessage {
   name: string;
@@ -18,20 +19,21 @@ export const sendWhatsappNotification = async (data: WhatsAppMessage) => {
 📧 Email: ${data.email}
 📱 Teléfono: ${data.phone}
 💈 Barbero: ${data.barberName}
-🗓️ Día: ${data.date}
+🗓️ Día: ${formatToDDMMYYYY(data.date)}
 🕒 Hora: ${data.time}`;
 
+
+
   try {
-    await axios.get('https://api.callmebot.com/whatsapp.php', {
+    await axios.get("https://api.callmebot.com/whatsapp.php", {
       params: {
         phone: phoneNumber,
         text: message,
         apikey: apiKey,
       },
     });
-    console.log('✅ Mensaje de WhatsApp enviado con éxito');
+    console.log("✅ Mensaje de WhatsApp enviado con éxito");
   } catch (error) {
-    console.error('❌ Error al enviar WhatsApp:', error);
+    console.error("❌ Error al enviar WhatsApp:", error);
   }
 };
-

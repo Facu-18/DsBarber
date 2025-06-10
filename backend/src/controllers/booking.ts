@@ -6,6 +6,7 @@ import { ReservationEmail } from "../emails/ReservationEmail";
 import { sendWhatsappNotification } from "../utils/sendWhatsapp";
 import { deleteOldBookings } from "../utils/cleanup";
 import { Barber } from "../models/Barber";
+import { formatToDDMMYYYY } from "../utils/date";
 
 export class BookingController {
   static createBooking = async (req: Request, res: Response) => {
@@ -33,7 +34,7 @@ export class BookingController {
         barber_id,
         service_id,
         client_id: client.client_id,
-        date,
+        date: formatToDDMMYYYY(date),
         time,
       });
 
