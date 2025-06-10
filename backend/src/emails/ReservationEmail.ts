@@ -1,3 +1,4 @@
+import { formatToYYYYDDMM } from "../utils/date";
 import { transport } from "../config/email";
 import dotenv from "dotenv";
 dotenv.config();
@@ -11,10 +12,13 @@ type EmailType = {
 
 export class ReservationEmail {
   static sendConfirmationEmail = async (user: EmailType) => {
+    
+    const formattedDate = formatToYYYYDDMM(user.date);
+    
     const link = `${
       process.env.FRONTEND_URL
     }/reserva?email=${encodeURIComponent(user.email)}&date=${encodeURIComponent(
-      user.date
+      formattedDate
     )}&time=${encodeURIComponent(user.time)}`;
 
     const email = await transport.sendMail({
@@ -44,7 +48,7 @@ export class ReservationEmail {
                Si no hiciste esta reserva o tienes alguna pregunta, podés contactarnos al telefono +54 9 3512291106.
             </p>
           </div>`,
-        });
+    });
 
     // console.log('Mensaje enviado', email.messageId)
   };

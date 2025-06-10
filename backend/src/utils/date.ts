@@ -10,3 +10,8 @@ export function formatToDDMMYYYY(dateStr: string): string {
   const [year, month, day] = dateStr.split('-');
   return `${day}-${month}-${year}`;
 }
+
+export function formatToYYYYDDMM(dateStr: string): string {
+  const [year, month, day] = dateStr.split("-");
+  return `${year}-${day}-${month}`;
+}
