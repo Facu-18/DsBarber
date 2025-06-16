@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { formatToDDMMYYYY, parseYYYYDDMM } from '../utils/date';
+import { formatYYYYMMDDToDDMMYYYY } from '../utils/date';
 
 interface Reserva {
   client: {
@@ -68,7 +68,7 @@ export default function ViewBooking() {
         <InfoRow label="✂️ Barbero" value={reserva.barber.name} />
         <InfoRow label="💈 Servicio" value={reserva.service.name} />
         <InfoRow label="💵 Precio" value={`$${reserva.service.price}`} />
-        <InfoRow label="📅 Fecha" value={formatToDDMMYYYY(parseYYYYDDMM(reserva.date))} />
+        <InfoRow label="📅 Fecha" value={formatYYYYMMDDToDDMMYYYY(reserva.date)} />
         <InfoRow label="🕒 Hora" value={reserva.time} />
       </div>
 

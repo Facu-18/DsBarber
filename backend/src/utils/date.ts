@@ -6,12 +6,19 @@ export function getDayNameESLocal(dateStr: string): string {
   return WEEKDAYS_ES[localDate.getDay()];
 }
 
+// De YYYY-MM-DD a DD-MM-YYYY (para mostrar)
 export function formatToDDMMYYYY(dateStr: string): string {
-  const [year, month, day] = dateStr.split('-');
+  if (!dateStr || typeof dateStr !== "string") return "Invalid date";
+  const [year, month, day] = dateStr.split("-");
+  if (!year || !month || !day) return "Invalid date";
   return `${day}-${month}-${year}`;
 }
 
-export function formatToYYYYDDMM(dateStr: string): string {
-  const [year, month, day] = dateStr.split("-");
-  return `${year}-${day}-${month}`;
+// De DD-MM-YYYY a YYYY-MM-DD (para almacenar)
+export function formatToYYYYMMDD(dateStr: string): string {
+  if (!dateStr || typeof dateStr !== "string") return "Invalid date";
+  const [day, month, year] = dateStr.split("-");
+  if (!day || !month || !year) return "Invalid date";
+  return `${year}-${month}-${day}`;
 }
+

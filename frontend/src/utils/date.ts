@@ -123,12 +123,8 @@ export function parseLocalDateFromYYYYMMDD(dateString: string): Date {
   return new Date(year, month - 1, day);
 }
 
+// Parsear fecha se usa en los componentes viewbooking y el page de turn all
 export function formatYYYYMMDDToDDMMYYYY(dateStr: string): string {
   const [year, month, day] = dateStr.split("-");
   return `${day}-${month}-${year}`;
-}
-
-export function parseYYYYDDMM(dateStr: string): Date {
-  const [year, day, month] = dateStr.split("-").map(Number);
-  return new Date(year, month - 1, day);
 }

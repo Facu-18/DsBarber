@@ -2,7 +2,7 @@
 
 import { Barber } from '@/src/lib/api/getBarbres';
 import { Booking } from '@/src/schemas';
-import { formatToDDMMYYYY, parseYYYYDDMM } from '@/src/utils/date';
+import { formatYYYYMMDDToDDMMYYYY } from '@/src/utils/date';
 import { useEffect, useState } from 'react';
 
 export default function TurnosPorBarbero() {
@@ -105,7 +105,7 @@ export default function TurnosPorBarbero() {
                     <td className="px-4 py-2">{b.client.email}</td>
                     <td className="px-4 py-2">{b.service.name}</td>
                     <td className="px-4 py-2">${b.service.price}</td>
-                    <td className="px-4 py-2">{formatToDDMMYYYY(parseYYYYDDMM(b.date))}</td>
+                    <td className="px-4 py-2">{formatYYYYMMDDToDDMMYYYY(b.date)}</td>
                     <td className="px-4 py-2">{b.time.slice(0, 5)}</td>
                   </tr>
                 ))
