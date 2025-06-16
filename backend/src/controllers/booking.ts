@@ -34,7 +34,7 @@ export class BookingController {
         barber_id,
         service_id,
         client_id: client.client_id,
-        date: formatToDDMMYYYY(date),
+        date,
         time,
       });
 
@@ -46,7 +46,7 @@ export class BookingController {
         name,
         phone,
         email,
-        date,
+        date: formatToDDMMYYYY(date),
         time,
         barberName: barber.name,
       });
