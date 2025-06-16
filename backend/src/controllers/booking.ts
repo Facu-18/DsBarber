@@ -8,7 +8,8 @@ import { deleteOldBookings } from "../utils/cleanup";
 import { Barber } from "../models/Barber";
 
 export class BookingController {
-static createBooking = async (req: Request, res: Response) => {
+
+  static createBooking = async (req: Request, res: Response) => {
   try {
     const barber_id = Number(req.params.barberId);
     const service_id = Number(req.params.serviceId);
