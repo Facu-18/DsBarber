@@ -122,7 +122,7 @@ export default function TattooLandingPage() {
           </p>
           <div className="flex justify-center gap-6 sm:gap-8">
             <Link
-              href="https://wa.me/543512291106"
+              href="https://wa.me/543512122064"
               target="_blank"
               className="text-blue-700 hover:text-blue-500 transition-all duration-200"
               aria-label="Contactar por WhatsApp"
