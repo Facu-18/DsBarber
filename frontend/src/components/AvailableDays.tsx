@@ -97,7 +97,7 @@ export default function AvailableDays() {
   }, [barberId])
 
   const groupedAvailability: GroupedAvailability = availability.reduce((acc, a) => {
-    const upcomingDates = getUpcomingDatesForDay(a.day)
+    const upcomingDates = getUpcomingDatesForDay(a.day, 2)
 
     upcomingDates.forEach((date) => {
       const formattedDate = formatDate(date)
@@ -113,16 +113,18 @@ export default function AvailableDays() {
         }
       }
 
+      console.log(a.day)
+
       let fullSlots: string[] = []
       if (dayNum >= 2 && dayNum <= 5) {
         // Martes a Viernes
         fullSlots = [
           ...generateTimeSlots('10:00', '13:00', date),
-          ...generateTimeSlots('16:00', '21:00',  date),
+          ...generateTimeSlots('16:00', '21:00', date),
         ]
       } else if (dayNum === 6) {
         // Sábado
-        fullSlots = generateTimeSlots('10:00', '17:00',  date)
+        fullSlots = generateTimeSlots('10:00', '17:00', date)
       }
 
       const reservedSlots = reservedMap[isoDate] || []

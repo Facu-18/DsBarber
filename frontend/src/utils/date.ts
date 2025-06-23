@@ -5,22 +5,35 @@ function addDays(baseDate: Date, days: number): Date {
   return copy;
 }
 
-export function getUpcomingDatesForDay(dayName: string): Date[] {
+export function getUpcomingDatesForDay(dayName: string, weeksAhead = 2): Date[] {
   const targetDay = getDayNumberFromName(dayName);
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Limpiar hora
+  today.setHours(0, 0, 0, 0);
+  const result: Date[] = [];
 
-  for (let i = 0; i < 7; i++) {
+  const totalDays = 7 * weeksAhead;
+
+  for (let i = 0; i < totalDays; i++) {
     const date = addDays(today, i);
     if (date.getDay() === targetDay) {
-      return [date]; // Solo queremos la primera coincidencia
+      result.push(date);
     }
   }
 
-  return []; // En caso de no encontrar (muy raro)
+  return result;
 }
 
+function normalizeDayName(day: string): string {
+  return day
+    .normalize("NFD") // Quita tildes
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/^\w/, (c) => c.toUpperCase()); // Primera en mayúscula
+}
+
+
 function getDayNumberFromName(day: string): number {
+  const normalized = normalizeDayName(day);
   const daysMap: Record<string, number> = {
     Domingo: 0,
     Lunes: 1,
@@ -30,7 +43,7 @@ function getDayNumberFromName(day: string): number {
     Viernes: 5,
     Sabado: 6,
   };
-  return daysMap[day];
+  return daysMap[normalized];
 }
 
 export function formatDate(date: Date): string {
