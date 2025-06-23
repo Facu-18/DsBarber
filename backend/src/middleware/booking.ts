@@ -61,7 +61,9 @@ export const checkBarberAvailability = async (
 ) => {
   const { date, time } = req.body;
   const barberId = Number(req.params.barberId);
-  const dayName = getDayNameESLocal(date);
+
+  const rawDayName = getDayNameESLocal(date); // ej: "sábado"
+  const dayName = normalizeDayName(rawDayName); // => "Sabado"
 
   const availability = await BarberAvailability.findOne({
     where: { barber_id: barberId, day: dayName },
@@ -79,10 +81,14 @@ export const checkBarberAvailability = async (
     return;
   }
 
-  // Guardar para próximos middlewares
   (req as any).slotTime = slotTime;
   next();
 };
+
+function normalizeDayName(input: string): string {
+  const sinTildes = input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  return sinTildes.charAt(0).toUpperCase() + sinTildes.slice(1).toLowerCase();
+}
 
 export const checkTimeConflict = async (
   req: Request,
