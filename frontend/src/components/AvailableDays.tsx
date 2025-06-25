@@ -97,7 +97,7 @@ export default function AvailableDays() {
   }, [barberId])
 
   const groupedAvailability: GroupedAvailability = availability.reduce((acc, a) => {
-    const upcomingDates = getUpcomingDatesForDay(a.day, 2)
+    const upcomingDates = getUpcomingDatesForDay(a.day, 1)
 
     upcomingDates.forEach((date) => {
       const formattedDate = formatDate(date)
