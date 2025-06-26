@@ -67,6 +67,18 @@ export default function ElegirServicio() {
                                         </div>
                                         <span className="text-sm text-gray-600">Maxi</span>
                                     </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <div className="w-8 h-8 rounded-full overflow-hidden">
+                                            <Image
+                                                alt="Foto de Darío"
+                                                src="/imageBarber3.jpg"
+                                                width={32}
+                                                height={32}
+                                                className="object-cover w-full h-full"
+                                            />
+                                        </div>
+                                        <span className="text-sm text-gray-600">Joaquín</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
