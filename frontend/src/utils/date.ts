@@ -141,3 +141,14 @@ export function formatYYYYMMDDToDDMMYYYY(dateStr: string): string {
   const [year, month, day] = dateStr.split("-");
   return `${day}-${month}-${year}`;
 }
+
+// filtrar por 7 dias
+export function isWithinNext7Days(date: Date): boolean {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const sevenDaysFromToday = new Date();
+  sevenDaysFromToday.setDate(today.getDate() + 7);
+
+  return date >= today && date < sevenDaysFromToday;
+}

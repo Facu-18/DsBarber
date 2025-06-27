@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { generateTimeSlots, getUpcomingDatesForDay, formatDate } from '@/src/utils/date'
+import { generateTimeSlots, getUpcomingDatesForDay, formatDate, isWithinNext7Days } from '@/src/utils/date'
 
 interface DisabledSlot {
     date: string // YYYY-MM-DD
@@ -73,16 +73,26 @@ export default function DisableSlotManager({ barberId }: Props) {
 
     return (
         <div className="space-y-8 max-w-5xl mx-auto p-4">
-            {weekdays.map((day) => {
-                const dates = getUpcomingDatesForDay(day); // solo los próximos 2 por día
-                return dates.map((date) => {
+            {weekdays
+                .flatMap((day) =>
+                    getUpcomingDatesForDay(day)
+                        .filter(isWithinNext7Days)
+                        .map((date) => ({ day, date }))
+                )
+                .sort((a, b) => a.date.getTime() - b.date.getTime()) // ⬅️ Orden cronológico
+                .map(({ day, date }) => {
                     const iso = date.toISOString().split('T')[0];
                     const formatted = formatDate(date);
                     const slots = generateTimeSlots(start, end, date);
 
                     return (
-                        <div key={iso} className="border border-gray-100 rounded-3xl p-8 bg-gradient-to-br from-white to-gray-50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
-                            <h3 className="text-xl font-semibold text-gray-800 mb-6 tracking-tight">{day}, <span className="text-gray-600">{formatted}</span></h3>
+                        <div
+                            key={iso}
+                            className="border border-gray-100 rounded-3xl p-8 bg-gradient-to-br from-white to-gray-50 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out"
+                        >
+                            <h3 className="text-xl font-semibold text-gray-800 mb-6 tracking-tight">
+                                {day}, <span className="text-gray-600">{formatted}</span>
+                            </h3>
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                                 {slots.map((slot) => (
                                     <button
@@ -99,8 +109,7 @@ export default function DisableSlotManager({ barberId }: Props) {
                             </div>
                         </div>
                     );
-                });
-            })}
+                })}
         </div>
     )
 }
