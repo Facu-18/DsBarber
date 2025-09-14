@@ -51,10 +51,10 @@ export default function ContactForm() {
           Tus datos
         </h2>
 
-        <div className="bg-gray-50 rounded-xl p-4 mb-6">
-          <p className="text-sm text-gray-600">
-            <span className="font-medium text-gray-800">Fecha:</span> {formatToDDMMYYYY(parseLocalDateFromYYYYMMDD(date))} <br />
-            <span className="font-medium text-gray-800">Hora:</span> {time}
+        <div className="bg-black rounded-xl p-4 mb-6">
+          <p className="text-sm text-white">
+            <span className="font-medium text-white">Fecha:</span> {formatToDDMMYYYY(parseLocalDateFromYYYYMMDD(date))} <br />
+            <span className="font-medium text-white">Hora:</span> {time}
           </p>
         </div>
 
@@ -96,7 +96,7 @@ export default function ContactForm() {
                 pattern="[0-9]{10}"
                 maxLength={10}
                 title="Ingresa 10 dígitos del número sin espacios ni prefijo"
-                className="w-full border border-l-0 border-gray-200 rounded-r-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300 transition-all duration-200"
+                className="w-full border border-l-0 border-gray-200 rounded-r-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-300 transition-all duration-200"
                 placeholder="3516604374"
               />
             </div>
@@ -106,7 +106,7 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-600 text-white py-2.5 rounded-xl hover:bg-blue-700 transition-all duration-200 font-medium text-sm sm:text-base disabled:bg-blue-400 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+          className="w-full bg-black text-white py-2.5 rounded-xl hover:bg-gray-900 transition-all duration-200 font-medium text-sm sm:text-base disabled:bg-gray-300 disabled:cursor-not-allowed flex justify-center items-center gap-2"
         >
           {isSubmitting ? (
             <>

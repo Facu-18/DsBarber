@@ -21,7 +21,6 @@ export default function SelectBarberRedirector() {
         console.error('Error al cargar barberos:', error)
       }
     }
-
     fetchBarbers()
   }, [])
 
@@ -34,21 +33,42 @@ export default function SelectBarberRedirector() {
 
   return (
     <div className="max-w-md mx-auto my-8">
-      <label className="block text-sm font-medium mb-2">Seleccioná un barbero</label>
-      <select
-        className="w-full border px-3 py-2 rounded shadow"
-        onChange={handleSelect}
-        defaultValue=""
-      >
-        <option value="" disabled>
-          -- Elegí un barbero --
-        </option>
-        {barbers.map((barber) => (
-          <option key={barber.barber_id} value={barber.barber_id}>
-            {barber.name}
-          </option>
-        ))}
-      </select>
+      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl p-5 text-white">
+        <label
+          htmlFor="barber-select"
+          className="block text-sm font-medium mb-2 text-white/90"
+        >
+          Seleccioná un barbero
+        </label>
+
+        <div className="relative">
+          <select
+            id="barber-select"
+            className="w-full appearance-none rounded-xl bg-white/10 border border-white/20 px-3 py-2.5 pr-10 text-white outline-none focus:ring-2 focus:ring-white/30"
+            onChange={handleSelect}
+            defaultValue=""
+          >
+            <option value="" disabled>
+              -- Elegí un barbero --
+            </option>
+            {barbers.map((barber) => (
+              <option key={barber.barber_id} value={barber.barber_id} className="text-black">
+                {barber.name}
+              </option>
+            ))}
+          </select>
+
+          {/* Chevron decorativo del select */}
+          <svg
+            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/80"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M7 10l5 5 5-5H7z" />
+          </svg>
+        </div>
+      </div>
     </div>
   )
 }

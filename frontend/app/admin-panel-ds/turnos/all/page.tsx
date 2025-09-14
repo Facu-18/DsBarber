@@ -3,7 +3,7 @@
 import { Barber } from '@/src/lib/api/getBarbres';
 import { Booking } from '@/src/schemas';
 import { formatYYYYMMDDToDDMMYYYY } from '@/src/utils/date';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { deleteBooking } from '@/src/actions/delete-booking-action';
 
@@ -17,27 +17,39 @@ export default function TurnosPorBarbero() {
   const [bookingToDelete, setBookingToDelete] = useState<number | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  useEffect(() => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-    fetch(`${baseUrl}/barber/barbers`)
-      .then((res) => res.json())
-      .then(setBarbers)
-      .catch((err) => console.error('Error cargando barberos:', err));
-  }, []);
+  const API = process.env.NEXT_PUBLIC_API_URL as string;
 
-  const loadBookings = () => {
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(`${API}/barber/barbers`);
+        const data = await res.json();
+        setBarbers(data);
+      } catch (err) {
+        console.error('Error cargando barberos:', err);
+      }
+    })();
+  }, [API]);
+
+  // ✅ Memorizar la función para que sea estable y poder usarla en useEffect
+  const loadBookings = useCallback(async () => {
     if (!selectedBarberId) return;
     setLoading(true);
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/booking/get-all/${selectedBarberId}`)
-      .then((res) => res.json())
-      .then(setBookings)
-      .catch((err) => console.error('Error cargando turnos:', err))
-      .finally(() => setLoading(false));
-  };
+    try {
+      const res = await fetch(`${API}/booking/get-all/${selectedBarberId}`);
+      const data = await res.json();
+      setBookings(data);
+    } catch (err) {
+      console.error('Error cargando turnos:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [API, selectedBarberId]);
 
   useEffect(() => {
+    // ✅ Ahora el effect depende de la versión memorizada de loadBookings
     loadBookings();
-  }, [selectedBarberId]);
+  }, [loadBookings]);
 
   const filteredBookings = bookings.filter((b) =>
     dateFilter ? b.date === dateFilter : true
@@ -49,7 +61,7 @@ export default function TurnosPorBarbero() {
     const result = await deleteBooking(bookingToDelete);
     if (result.success) {
       toast.success('Reserva eliminada con éxito');
-      loadBookings();
+      await loadBookings(); // refresca la lista
     } else {
       toast.error('No se pudo eliminar la reserva');
     }
@@ -60,27 +72,54 @@ export default function TurnosPorBarbero() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Turnos por Barbero</h1>
+      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl p-6">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-6">
+          Turnos por barbero
+        </h1>
 
-      <div className="mb-6">
-        <label className="block mb-1 font-medium text-gray-700">Seleccionar barbero</label>
-        <select
-          value={selectedBarberId ?? ''}
-          onChange={(e) => setSelectedBarberId(Number(e.target.value))}
-          className="border border-gray-300 rounded-lg px-3 py-2 text-sm w-full max-w-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-        >
-          <option value="">-- Seleccioná un barbero --</option>
-          {barbers.map((b) => (
-            <option key={b.barber_id} value={b.barber_id}>
-              {b.name}
-            </option>
-          ))}
-        </select>
+        <div className="mb-6">
+          <label
+            htmlFor="barber-select"
+            className="block mb-2 text-sm font-medium text-white/90"
+          >
+            Seleccionar barbero
+          </label>
+
+          <div className="relative max-w-xs">
+            <select
+              id="barber-select"
+              value={selectedBarberId ?? ''}
+              onChange={(e) =>
+                setSelectedBarberId(e.target.value ? Number(e.target.value) : null)
+              }
+              className="w-full appearance-none rounded-xl bg-white/10 border border-white/20 px-3 py-2.5 pr-10 text-white outline-none focus:ring-2 focus:ring-white/30"
+            >
+              <option value="" className="text-black">
+                -- Seleccioná un barbero --
+              </option>
+              {barbers.map((b) => (
+                <option key={b.barber_id} value={b.barber_id} className="text-black">
+                  {b.name}
+                </option>
+              ))}
+            </select>
+
+            {/* Chevron decorativo */}
+            <svg
+              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/80"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M7 10l5 5 5-5H7z" />
+            </svg>
+          </div>
+        </div>
       </div>
 
       {selectedBarberId && (
         <div className="mb-6">
-          <label className="block mb-1 font-medium text-gray-700">Filtrar por fecha</label>
+          <label className="block mb-1 font-medium text-white">Filtrar por fecha</label>
           <input
             type="date"
             value={dateFilter}
@@ -107,24 +146,29 @@ export default function TurnosPorBarbero() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={8} className="text-center px-6 py-6 text-gray-500">
+                  <td colSpan={7} className="text-center px-6 py-6 text-gray-500">
                     Cargando turnos...
                   </td>
                 </tr>
               ) : filteredBookings.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="text-center px-6 py-6 text-gray-500">
+                  <td colSpan={7} className="text-center px-6 py-6 text-gray-500">
                     No hay turnos para esta fecha.
                   </td>
                 </tr>
               ) : (
                 filteredBookings.map((b) => (
-                  <tr key={b.booking_id} className="border-t hover:bg-gray-50 transition-colors">
+                  <tr
+                    key={b.booking_id}
+                    className="border-t hover:bg-gray-50 transition-colors"
+                  >
                     <td className="px-6 py-3">{b.client.name}</td>
                     <td className="px-6 py-3">{b.client.email}</td>
                     <td className="px-6 py-3">{b.service.name}</td>
                     <td className="px-6 py-3">${b.service.price}</td>
-                    <td className="px-6 py-3">{formatYYYYMMDDToDDMMYYYY(b.date)}</td>
+                    <td className="px-6 py-3">
+                      {formatYYYYMMDDToDDMMYYYY(b.date)}
+                    </td>
                     <td className="px-6 py-3">{b.time.slice(0, 5)}</td>
                     <td className="px-6 py-3">
                       <button
@@ -154,8 +198,12 @@ export default function TurnosPorBarbero() {
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 transition-opacity duration-200">
           <div className="bg-white p-6 rounded-xl max-w-sm w-full text-center space-y-6 shadow-xl">
-            <h3 className="text-lg font-semibold text-gray-800">Confirmar eliminación</h3>
-            <p className="text-sm text-gray-600">¿Estás seguro de que querés eliminar esta reserva?</p>
+            <h3 className="text-lg font-semibold text-gray-800">
+              Confirmar eliminación
+            </h3>
+            <p className="text-sm text-gray-600">
+              ¿Estás seguro de que querés eliminar esta reserva?
+            </p>
             <div className="flex justify-center gap-4">
               <button
                 onClick={handleDelete}

@@ -1,2 +1,29 @@
 @import "tailwindcss";
 @import 'react-toastify/dist/ReactToastify.css';
+
+
+.bg-animated-gradient {
+  background: linear-gradient(-45deg, 
+    #0a0a0a,   /* negro profundo */
+    #1a1a1a,   /* gris oscuro */
+    #111827,   /* azul muy oscuro (casi negro) */
+    #2d2d2d,   /* gris intermedio */
+    #0a0f1a,   /* azul grisáceo profundo */
+    #0a0a0a
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 18s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+

@@ -31,13 +31,13 @@ export default function InfoService() {
   if (!service) return <p className="mb-4 text-red-500">Servicio no encontrado</p>
 
   return (
-    <div className="mb-8 bg-amber-50 border border-amber-100 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 p-4 sm:p-6">
+    <div className="mb-8 bg-black border border-black rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 p-4 sm:p-6">
       <div className="flex flex-col sm:flex-row items-start gap-4">
         <div className="flex-1">
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 font-sans tracking-wide">
+          <h2 className="text-lg sm:text-xl font-semibold text-white-900 mb-2 font-sans tracking-wide">
             {service.name}
           </h2>
-          <p className="text-gray-600 text-sm sm:text-base">Precio: ${service.price}</p>
+          <p className="text-white text-sm sm:text-base">Precio: ${service.price}</p>
         </div>
       </div>
     </div>

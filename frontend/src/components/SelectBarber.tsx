@@ -35,7 +35,7 @@ export default function SelectBarber() {
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 sm:mb-10 text-center font-sans tracking-tight">
+      <h1 className="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-10 text-center font-sans tracking-tight">
         Elegí tu barbero
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
@@ -63,7 +63,7 @@ export default function SelectBarber() {
                 {barber.description}
               </p>
               <button
-                className="mt-auto w-full bg-blue-600 text-white py-2 sm:py-2.5 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm sm:text-base font-medium"
+                className="mt-auto w-full bg-black text-white py-2 sm:py-2.5 px-4 rounded-lg hover:bg-gray-900 transition-colors duration-200 text-sm sm:text-base font-medium"
                 onClick={() =>
                   router.push(`/reservar/turnos?service_id=${serviceId}&barber_id=${barber.barber_id}`)
                 }

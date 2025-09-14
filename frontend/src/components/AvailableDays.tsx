@@ -170,8 +170,8 @@ export default function AvailableDays() {
       <div className="space-y-8">
         {availabilityEntries.map((entry) => (
           <div key={entry.formattedDate} className="border-b border-gray-200 pb-6 last:border-b-0">
-            <h3 className="text-xl font-semibold text-blue-900 mb-4 flex items-center gap-2">
-              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50 text-blue-700 font-medium text-sm">
+            <h3 className="text-xl font-semibold text-black mb-4 flex items-center gap-2">
+              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-black text-white font-medium text-sm">
                 {entry.date.getDate()}
               </span>
               {entry.day}, {entry.formattedDate}
@@ -180,7 +180,7 @@ export default function AvailableDays() {
               {entry.slots.map((slot: string) => (
                 <button
                   key={`${entry.isoDate}-${slot}`}
-                  className="py-2.5 px-4 text-sm font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-xl hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300 shadow-sm hover:shadow-md"
+                  className="py-2.5 px-4 text-sm font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-xl hover:bg-gray-900 hover:text-white hover:border-black-900 transition-all duration-300 shadow-sm hover:shadow-md"
                   onClick={() =>
                     router.push(
                       `/reservar/contacto?service_id=${serviceId}&barber_id=${barberId}&date=${entry.isoDate}&time=${slot}`

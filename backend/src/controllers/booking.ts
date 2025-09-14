@@ -6,67 +6,68 @@ import { ReservationEmail } from "../emails/ReservationEmail";
 import { sendWhatsappNotification } from "../utils/sendWhatsapp";
 import { deleteOldBookings } from "../utils/cleanup";
 import { Barber } from "../models/Barber";
+import { userInfo } from "node:os";
 
 export class BookingController {
-
   static createBooking = async (req: Request, res: Response) => {
-  try {
-    const barber_id = Number(req.params.barberId);
-    const service_id = Number(req.params.serviceId);
-    const { date, name, email, phone } = req.body;
-    const time = (req as any).slotTime;
+    try {
+      const barber_id = Number(req.params.barberId);
+      const service_id = Number(req.params.serviceId);
+      const { date, name, email, phone } = req.body;
+      const time = (req as any).slotTime;
 
-    if (!date || typeof date !== "string") {
-      res.status(400).json({ message: "La fecha es requerida en formato YYYY-MM-DD." });
-      return 
+      if (!date || typeof date !== "string") {
+        res
+          .status(400)
+          .json({ message: "La fecha es requerida en formato YYYY-MM-DD." });
+        return;
+      }
+
+      // Buscar o crear el cliente
+      let client = await ClientInfo.findOne({ where: { email } });
+      if (!client) {
+        client = await ClientInfo.create({ name, email, phone });
+      }
+
+      // Verificar que el barbero exista
+      const barber = await Barber.findByPk(barber_id);
+      if (!barber) {
+        res.status(404).json({ message: "Barbero no encontrado" });
+        return;
+      }
+
+      // Crear la reserva con la fecha tal como viene (YYYY-MM-DD)
+      const booking = await Booking.create({
+        barber_id,
+        service_id,
+        client_id: client.client_id,
+        date, // ✅ No se transforma
+        time,
+      });
+
+      // Enviar email (usa la fecha tal como está para construir el link)
+      await ReservationEmail.sendConfirmationEmail({ name, email, date, time });
+
+      // Enviar WhatsApp (usa fecha formateada para mostrar)
+      await sendWhatsappNotification({
+        name,
+        phone,
+        email,
+        date,
+        time,
+        barberName: barber.name,
+      });
+
+      res.status(201).json({
+        message: "Reserva creada con éxito",
+        booking,
+      });
+    } catch (error) {
+      console.error("Error al crear reserva:", error);
+      res.status(500).json({ message: "Error interno del servidor" });
+      return;
     }
-
-    // Buscar o crear el cliente
-    let client = await ClientInfo.findOne({ where: { email } });
-    if (!client) {
-      client = await ClientInfo.create({ name, email, phone });
-    }
-
-    // Verificar que el barbero exista
-    const barber = await Barber.findByPk(barber_id);
-    if (!barber) {
-      res.status(404).json({ message: "Barbero no encontrado" });
-      return 
-    }
-
-    // Crear la reserva con la fecha tal como viene (YYYY-MM-DD)
-    const booking = await Booking.create({
-      barber_id,
-      service_id,
-      client_id: client.client_id,
-      date, // ✅ No se transforma
-      time,
-    });
-
-    // Enviar email (usa la fecha tal como está para construir el link)
-    await ReservationEmail.sendConfirmationEmail({ name, email, date, time });
-
-    // Enviar WhatsApp (usa fecha formateada para mostrar)
-    await sendWhatsappNotification({
-      name,
-      phone,
-      email,
-      date,
-      time,
-      barberName: barber.name,
-    });
- 
-    res.status(201).json({
-      message: "Reserva creada con éxito",
-      booking,
-    });
-
-  } catch (error) {
-    console.error("Error al crear reserva:", error);
-    res.status(500).json({ message: "Error interno del servidor" });
-    return 
-  }
-};
+  };
 
   static getAllBookings = async (req: Request, res: Response) => {
     try {
@@ -189,6 +190,7 @@ export class BookingController {
       const booking = await Booking.findByPk(bookingId);
       // Eliminar la reserva
       await booking!.destroy();
+      
       res.status(200).json({ message: "Reserva eliminada correctamente" });
       return;
     } catch (error) {
