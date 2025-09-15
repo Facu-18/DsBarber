@@ -70,7 +70,7 @@ export default function ContactForm() {
               name="name"
               disabled={isSubmitting}
               required
-              className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm"
+              className="w-full border text-black border-gray-200 rounded-lg px-4 py-2 text-sm"
             />
           </div>
           <div>
@@ -80,7 +80,7 @@ export default function ContactForm() {
               name="email"
               disabled={isSubmitting}
               required
-              className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm"
+              className="w-full border text-black border-gray-200 rounded-lg px-4 py-2 text-sm"
             />
           </div>
           <div>
@@ -96,7 +96,7 @@ export default function ContactForm() {
                 pattern="[0-9]{10}"
                 maxLength={10}
                 title="Ingresa 10 dígitos del número sin espacios ni prefijo"
-                className="w-full border border-l-0 border-gray-200 rounded-r-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-300 transition-all duration-200"
+                className="w-full border border-l-0 text-black border-gray-200 rounded-r-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-300 transition-all duration-200"
                 placeholder="3516604374"
               />
             </div>

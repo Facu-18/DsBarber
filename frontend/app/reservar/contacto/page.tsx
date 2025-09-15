@@ -79,7 +79,7 @@ export default function Contacto() {
       </div>
 
       {/* Sección de formulario de contacto */}
-      <Suspense fallback={<p className="text-center text-white/70">Cargando formulario...</p>}>
+      <Suspense fallback={<p className="text-center text-black">Cargando formulario...</p>}>
         <ContactForm />
       </Suspense>
 
