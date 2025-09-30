@@ -1,12 +1,9 @@
-// Si tenés "esModuleInterop": true en tsconfig, podés usar:
-// import SibApiV3Sdk from 'sib-api-v3-sdk';
 // @ts-ignore
 import SibApiV3Sdk from "sib-api-v3-sdk";
 
 const provider = process.env.EMAIL_PROVIDER || 'brevo';
 const from = process.env.EMAIL_FROM || 'DSBarber <noreply@dsbarberstudio.space>';
 
-// --- Inicializa cliente Brevo ---
 const defaultClient = (SibApiV3Sdk as any).ApiClient.instance;
 if (process.env.BREVO_API_KEY) {
   defaultClient.authentications['api-key'].apiKey = process.env.BREVO_API_KEY;
