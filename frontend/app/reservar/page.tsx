@@ -44,7 +44,7 @@ export default function ElegirServicio() {
                 <div className="flex flex-wrap gap-2 sm:gap-3 mt-2">
                   {[
                     { name: "Darío", src: "/imageBarber2.jpeg" },
-                    { name: "Joaquín", src: "/imageBarber3.jpg" },
+                    
                   ].map((pro, index) => (
                     <div key={index} className="flex items-center gap-1.5 sm:gap-2">
                       <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden ring-1 ring-white/20">

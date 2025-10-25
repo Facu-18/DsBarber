@@ -3,12 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const images = [
-  { id: 1, src: "/barberia1.jpeg", alt: "Vista de la barbería 1" },
+  { id: 1, src: "/barberia2.jpeg", alt: "Vista de la barbería 2" },
   { id: 2, src: "/barberia2.jpeg", alt: "Vista de la barbería 2" },
   { id: 3, src: "/barberia3.jpeg", alt: "Vista de la barbería 3" },
   { id: 4, src: "/barberia4.jpeg", alt: "Vista de la barbería 4" },
   { id: 5, src: "/barberia5.jpeg", alt: "Vista de la barbería 5" },
-  { id: 6, src: "/barberia6.jpeg", alt: "Vista de la barbería 6" },
+  { id: 6, src: "/barberia6.jpeg", alt: "Vista de la barbería 5" },
+
 ];
 
 export default function BackgroundCarousel() {
