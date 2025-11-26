@@ -7,9 +7,7 @@ import MobileMenu from '@/src/components/MobileMenu';
 import { ToastContainer } from 'react-toastify';
 import Image from 'next/image';
 
-
 import BackgroundCarousel from '@/src/components/BackgroundCarrusel';
-
 
 const outfit = Outfit({ subsets: ['latin'] });
 
@@ -25,8 +23,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Fondo global */}
         <BackgroundCarousel />
 
+        {/* Aviso de aumento de servicios */}
+        <div className="w-full z-50 bg-amber-400/95 text-black">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+            <p className="text-xs sm:text-sm text-center font-medium">
+              <span className="font-semibold">Estimados clientes:</span>{' '}
+              a partir de la semana <span className="font-semibold">1/12</span> habrá un aumento en los servicios.
+            </p>
+          </div>
+        </div>
+
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-black/60 backdrop-blur-md border-b border-gray-800">
+        <header className="sticky top-0 z-40 bg-black/60 backdrop-blur-md border-b border-gray-800">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
             {/* Logo + Título */}
             <div className="flex items-center gap-3">
@@ -41,14 +49,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </Link>
             </div>
 
-            {/* Menú de navegación (con tus 2 links nuevos) */}
+            {/* Menú de navegación */}
             <div className="flex items-center gap-6">
               <nav className="hidden sm:flex space-x-6 text-sm font-medium">
-                <Link href="/" className="text-gray-300 hover:text-white transition-colors duration-200">Inicio</Link>
-                <Link href="/reservar" className="text-gray-300 hover:text-white transition-colors duration-200">Reservar</Link>
-                <Link href="/instalacion" className="text-gray-300 hover:text-white transition-colors duration-200">Nuestras instalaciones</Link>
-                <Link href="/trabajos" className="text-gray-300 hover:text-white transition-colors duration-200">Nuestros trabajos</Link>
-                <Link href="https://wa.me/543512291106" target="_blank" className="text-gray-300 hover:text-white transition-colors duration-200">Contacto</Link>
+                <Link href="/" className="text-gray-300 hover:text-white transition-colors duration-200">
+                  Inicio
+                </Link>
+                <Link href="/reservar" className="text-gray-300 hover:text-white transition-colors duration-200">
+                  Reservar
+                </Link>
+                <Link href="/instalacion" className="text-gray-300 hover:text-white transition-colors duration-200">
+                  Nuestras instalaciones
+                </Link>
+                <Link href="/trabajos" className="text-gray-300 hover:text-white transition-colors duration-200">
+                  Nuestros trabajos
+                </Link>
+                <Link
+                  href="https://wa.me/543512291106"
+                  target="_blank"
+                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                >
+                  Contacto
+                </Link>
               </nav>
               <div className="sm:hidden">
                 <MobileMenu />
@@ -67,17 +89,38 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row justify-between items-center text-gray-400 text-sm">
             <p className="mb-4 sm:mb-0">© 2025 Ds Barberstudio. Todos los derechos reservados.</p>
             <div className="flex gap-5">
-              <Link href="https://www.instagram.com/ds_barbershopok/" target="_blank" className="hover:text-white transition-colors duration-200" aria-label="Instagram">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M7.5 2h9A5.5 5.5 0 0122 7.5v9a5.5 5.5 0 01-5.5 5.5h-9A5.5 5.5 0 012 16.5v-9A5.5 5.5 0 017.5 2zm0 2A3.5 3.5 0 004 7.5v9A3.5 3.5 0 007.5 20h9a3.5 3.5 0 003.5-3.5v-9A3.5 3.5 0 0016.5 4h-9zM12 7a5 5 0 100 10 5 5 0 000-10zm6-1a1 1 0 110 2 1 1 0 010-2z"/></svg>
+              <Link
+                href="https://www.instagram.com/ds_barbershopok/"
+                target="_blank"
+                className="hover:text-white transition-colors duration-200"
+                aria-label="Instagram"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M7.5 2h9A5.5 5.5 0 0122 7.5v9a5.5 5.5 0 01-5.5 5.5h-9A5.5 5.5 0 012 16.5v-9A5.5 5.5 0 017.5 2zm0 2A3.5 3.5 0 004 7.5v9A3.5 3.5 0 007.5 20h9a3.5 3.5 0 003.5-3.5v-9A3.5 3.5 0 0016.5 4h-9zM12 7a5 5 0 100 10 5 5 0 000-10zm6-1a1 1 0 110 2 1 1 0 010-2z" />
+                </svg>
               </Link>
-              <Link href="https://wa.me/543512291106" target="_blank" className="hover:text-white transition-colors duration-200" aria-label="WhatsApp">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.52 3.48A11.94 11.94 0 0 0 12.06 0C5.53 0 .2 5.33.2 11.9c0 2.1.55 4.07 1.52 5.8L0 24l6.49-1.7c1.67.9 3.58 1.4 5.6 1.4h.01c6.53 0 11.86-5.33 11.86-11.9 0-3.18-1.23-6.18-3.44-8.3Zm-8.42 18.02h-.01c-1.77 0-3.47-.48-4.96-1.38l-.36-.21-3.85 1.01 1.03-3.75-.24-.38a9.9 9.9 0 0 1-1.5-5.2C2.21 6.45 6.68 2 12.06 2c2.62 0 5.08 1.02 6.93 2.87a9.83 9.83 0 0 1 2.87 6.97c0 5.39-4.45 9.66-9.76 9.66Z"/></svg>
+              <Link
+                href="https://wa.me/543512291106"
+                target="_blank"
+                className="hover:text-white transition-colors duration-200"
+                aria-label="WhatsApp"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.52 3.48A11.94 11.94 0 0 0 12.06 0C5.53 0 .2 5.33.2 11.9c0 2.1.55 4.07 1.52 5.8L0 24l6.49-1.7c1.67.9 3.58 1.4 5.6 1.4h.01c6.53 0 11.86-5.33 11.86-11.9 0-3.18-1.23-6.18-3.44-8.3Zm-8.42 18.02h-.01c-1.77 0-3.47-.48-4.96-1.38l-.36-.21-3.85 1.01 1.03-3.75-.24-.38a9.9 9.9 0 0 1-1.5-5.2C2.21 6.45 6.68 2 12.06 2c2.62 0 5.08 1.02 6.93 2.87a9.83 9.83 0 0 1 2.87 6.97c0 5.39-4.45 9.66-9.76 9.66Z" />
+                </svg>
               </Link>
             </div>
           </div>
         </footer>
 
-        <ToastContainer position="top-right" autoClose={3000} hideProgressBar closeOnClick pauseOnHover theme="dark" />
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar
+          closeOnClick
+          pauseOnHover
+          theme="dark"
+        />
       </body>
     </html>
   );
