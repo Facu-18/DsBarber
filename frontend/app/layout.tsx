@@ -23,16 +23,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Fondo global */}
         <BackgroundCarousel />
 
-        {/* Aviso de aumento de servicios */}
-        <div className="w-full z-50 bg-amber-400/95 text-black">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-            <p className="text-xs sm:text-sm text-center font-medium">
-              <span className="font-semibold">Estimados clientes:</span>{' '}
-              a partir de la semana <span className="font-semibold">1/12</span> habrá un aumento en los servicios.
-            </p>
-          </div>
-        </div>
-
         {/* Header */}
         <header className="sticky top-0 z-40 bg-black/60 backdrop-blur-md border-b border-gray-800">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
