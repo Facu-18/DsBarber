@@ -4,7 +4,8 @@ import { z } from 'zod'
 const ServiceSchema = z.object({
   service_id: z.number(),
   name: z.string(),
-  price: z.number()
+  price: z.number(),
+  description: z.string().optional()
 })
 
 export const ServicesArraySchema = z.array(ServiceSchema)

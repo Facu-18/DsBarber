@@ -1,10 +1,12 @@
 // src/lib/api/getServiceById.ts
+
 import { z } from 'zod'
 
 const ServiceSchema = z.object({
   service_id: z.number(),
   name: z.string(),
   price: z.number(),
+  description: z.string().optional(),
 })
 
 export type Service = z.infer<typeof ServiceSchema>
