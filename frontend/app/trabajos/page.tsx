@@ -27,6 +27,32 @@ const trabajos = [
     barbero: "Darío",
     avatar: "/imageBarber2.jpeg",
   },
+  {
+    id: 5,
+    img: "/corte1-thiago.jpeg",
+    barbero: "Thiago",
+    avatar: "/imageBarber4.jpeg",
+  },
+  {
+    id: 6,
+    img: "/corte2-thiago.jpeg",
+    barbero: "Thiago",
+    avatar: "/imageBarber4.jpeg",
+  },
+  {
+    id: 7,
+    img: "/corte3-thiago.jpeg",
+    barbero: "Thiago",
+    avatar: "/imageBarber4.jpeg",
+  },
+  {
+    id: 8,
+    img: "/corte4-thiago.jpeg",
+    barbero: "Thiago",
+    avatar: "/imageBarber4.jpeg",
+  },
+
+  
 ];
 
 export default function Trabajos() {
