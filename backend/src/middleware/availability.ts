@@ -91,7 +91,12 @@ export const validateAvailabilityExists = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { availabilityId } = req.params;
+  const rawAvailabilityId = req.params.availabilityId;
+  const availabilityId = Number(
+    Array.isArray(rawAvailabilityId)
+      ? rawAvailabilityId[0]
+      : rawAvailabilityId
+  );
   try {
     const avaiablity = await BarberAvailability.findByPk(availabilityId);
 

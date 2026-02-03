@@ -62,7 +62,10 @@ export const validateServiceExists = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { serviceId } = req.params;
+  const rawServiceId = req.params.serviceId;
+  const serviceId = Number(
+    Array.isArray(rawServiceId) ? rawServiceId[0] : rawServiceId
+  );
   try {
     const service = await Service.findByPk(serviceId);
 

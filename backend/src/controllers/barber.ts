@@ -16,7 +16,10 @@ export class BarberController {
           .json({ message: "Error al procesar el formulario" });
       }
 
-      const barberId = req.params.barberId;
+      const rawBarberId = req.params.barberId;
+      const barberId = Number(
+        Array.isArray(rawBarberId) ? rawBarberId[0] : rawBarberId
+      );
 
       // Buscar barbero
       const barber = await Barber.findByPk(barberId);
@@ -79,7 +82,10 @@ export class BarberController {
 
   static getBarberId = async (req: Request, res: Response) => {
     try {
-      const barberId = req.params.barberId;
+      const rawBarberId = req.params.barberId;
+      const barberId = Number(
+        Array.isArray(rawBarberId) ? rawBarberId[0] : rawBarberId
+      );
       const barber = await Barber.findByPk(barberId);
       res.json(barber);
     } catch (error) {

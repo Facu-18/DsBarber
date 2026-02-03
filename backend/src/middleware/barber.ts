@@ -55,7 +55,10 @@ export const validateBarberExists = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { barberId } = req.params;
+  const rawBarberId = req.params.barberId;
+  const barberId = Number(
+    Array.isArray(rawBarberId) ? rawBarberId[0] : rawBarberId
+  );
   try {
     const barber = await Barber.findByPk(barberId);
 

@@ -138,7 +138,10 @@ export const validateBookingExists = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { booking_id } = req.params;
+  const rawBookingId = req.params.booking_id;
+  const booking_id = Number(
+    Array.isArray(rawBookingId) ? rawBookingId[0] : rawBookingId
+  );
   try {
     const booking = await Booking.findByPk(booking_id);
 
