@@ -9,6 +9,7 @@ import {
   HasMany,
 } from "sequelize-typescript";
 import { Booking } from "./Booking";
+import { BarberServicePrice } from "./BarberServicePrice";
 
 @Table({
   tableName: "service",
@@ -31,4 +32,7 @@ export class Service extends Model<Service> {
 
   @HasMany(() => Booking)
   bookings!: Booking[];
+
+  @HasMany(() => BarberServicePrice)
+  barberPrices!: BarberServicePrice[];
 }

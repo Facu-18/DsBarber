@@ -165,7 +165,7 @@ export default function TurnosPorBarbero() {
                     <td className="px-6 py-3">{b.client.name}</td>
                     <td className="px-6 py-3">{b.client.email}</td>
                     <td className="px-6 py-3">{b.service.name}</td>
-                    <td className="px-6 py-3">${b.service.price}</td>
+                    <td className="px-6 py-3">${b.final_price ?? b.service.price}</td>
                     <td className="px-6 py-3">
                       {formatYYYYMMDDToDDMMYYYY(b.date)}
                     </td>

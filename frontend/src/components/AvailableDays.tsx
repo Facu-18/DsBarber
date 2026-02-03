@@ -25,6 +25,11 @@ interface DisabledSlot {
   time: string
 }
 
+interface PriceNotice {
+  barberName: string
+  price: number
+}
+
 export default function AvailableDays() {
   const searchParams = useSearchParams()
   const barberId = Number(searchParams.get('barber_id'))
@@ -36,6 +41,39 @@ export default function AvailableDays() {
   const [disabledSlots, setDisabledSlots] = useState<DisabledSlot[]>([])
   const [loading, setLoading] = useState(true)
   const [isReservedLoaded, setIsReservedLoaded] = useState(false)
+  const [priceNotice, setPriceNotice] = useState<PriceNotice | null>(null)
+  const [showPriceNotice, setShowPriceNotice] = useState(true)
+
+  useEffect(() => {
+    const fetchPriceNotice = async () => {
+      if (!barberId || !serviceId) return
+
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL
+        const [barberRes, serviceRes] = await Promise.all([
+          fetch(`${baseUrl}/barber/${barberId}`),
+          fetch(`${baseUrl}/service/${serviceId}?barberId=${barberId}`),
+        ])
+
+        if (!barberRes.ok || !serviceRes.ok) return
+
+        const barberData = await barberRes.json()
+        const serviceData = await serviceRes.json()
+
+        if (!barberData?.name || typeof serviceData?.price !== 'number') return
+
+        setPriceNotice({
+          barberName: barberData.name,
+          price: serviceData.price,
+        })
+        setShowPriceNotice(true)
+      } catch (error) {
+        console.error('Error cargando mensaje de precio:', error)
+      }
+    }
+
+    fetchPriceNotice()
+  }, [barberId, serviceId])
 
   useEffect(() => {
     if (!barberId) return
@@ -164,6 +202,23 @@ export default function AvailableDays() {
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white rounded-3xl shadow-xl border border-gray-200">
+      {priceNotice && showPriceNotice && (
+        <div className="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 flex items-start justify-between gap-4">
+          <p className="text-sm sm:text-base text-emerald-900 font-medium">
+            Con <span className="font-semibold">{priceNotice.barberName}</span>, tu corte queda en{' '}
+            <span className="font-semibold">${priceNotice.price}</span>.
+          </p>
+          <button
+            type="button"
+            onClick={() => setShowPriceNotice(false)}
+            className="text-emerald-700 hover:text-emerald-900 text-sm font-semibold"
+            aria-label="Cerrar mensaje de precio"
+          >
+            Cerrar
+          </button>
+        </div>
+      )}
+
       <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center font-sans tracking-tight">
         Seleccioná un día y turno
       </h2>

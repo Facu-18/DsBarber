@@ -17,6 +17,7 @@ interface Reserva {
     name: string;
     price: number;
   };
+  final_price?: number | null;
   date: string;
   time: string;
 }
@@ -67,7 +68,7 @@ export default function ViewBooking() {
         <InfoRow label="📱 Teléfono" value={reserva.client.phone} />
         <InfoRow label="✂️ Barbero" value={reserva.barber.name} />
         <InfoRow label="💈 Servicio" value={reserva.service.name} />
-        <InfoRow label="💵 Precio" value={`$${reserva.service.price}`} />
+        <InfoRow label="💵 Precio" value={`$${reserva.final_price ?? reserva.service.price}`} />
         <InfoRow label="📅 Fecha" value={formatYYYYMMDDToDDMMYYYY(reserva.date)} />
         <InfoRow label="🕒 Hora" value={reserva.time} />
       </div>

@@ -10,6 +10,7 @@ import {
 import { Booking } from "./Booking";
 import { DisabledSlot } from "./DisabledSlot";
 import { BarberAvailability } from "./BarberAvailability";
+import { BarberServicePrice } from "./BarberServicePrice";
 
 export interface BarberAttributes {
   barber_id?: number;
@@ -45,4 +46,7 @@ export class Barber
 
   @HasMany(() => BarberAvailability) 
   availabilities!: BarberAvailability[];
+
+  @HasMany(() => BarberServicePrice)
+  servicePrices!: BarberServicePrice[];
 }

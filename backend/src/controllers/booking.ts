@@ -6,9 +6,49 @@ import { ReservationEmail } from "../emails/ReservationEmail";
 import { sendWhatsappNotification } from "../utils/sendWhatsapp";
 import { deleteOldBookings } from "../utils/cleanup";
 import { Barber } from "../models/Barber";
-import { userInfo } from "node:os";
+import { BarberServicePrice } from "../models/BarberServicePrice";
+import { Op } from "sequelize";
 
 export class BookingController {
+  private static async getCustomPriceMap(
+    barber_id: number,
+    serviceIds: number[]
+  ): Promise<Map<number, number>> {
+    if (serviceIds.length === 0) return new Map<number, number>();
+
+    const overrides = await BarberServicePrice.findAll({
+      where: {
+        barber_id,
+        service_id: { [Op.in]: serviceIds },
+      },
+      attributes: ["service_id", "price"],
+    });
+
+    return new Map<number, number>(
+      overrides.map((item) => [item.service_id, item.price])
+    );
+  }
+
+  private static async getEffectivePrice(
+    barber_id: number,
+    service_id: number,
+    fallbackPrice?: number
+  ): Promise<number | null> {
+    const override = await BarberServicePrice.findOne({
+      where: { barber_id, service_id },
+      attributes: ["price"],
+    });
+
+    if (override) return override.price;
+    if (typeof fallbackPrice === "number") return fallbackPrice;
+
+    const service = await Service.findByPk(service_id, {
+      attributes: ["price"],
+    });
+
+    return service ? service.price : null;
+  }
+
   static createBooking = async (req: Request, res: Response) => {
     try {
       const barber_id = Number(req.params.barberId);
@@ -35,6 +75,13 @@ export class BookingController {
         res.status(404).json({ message: "Barbero no encontrado" });
         return;
       }
+      const service = await Service.findByPk(service_id, {
+        attributes: ["price"],
+      });
+      if (!service) {
+        res.status(404).json({ message: "Servicio no encontrado" });
+        return;
+      }
 
       // Crear la reserva con la fecha tal como viene (YYYY-MM-DD)
       const booking = await Booking.create({
@@ -58,9 +105,18 @@ export class BookingController {
         barberName: barber.name,
       });
 
+      const finalPrice = await BookingController.getEffectivePrice(
+        barber_id,
+        service_id,
+        service.price
+      );
+
       res.status(201).json({
         message: "Reserva creada con éxito",
-        booking,
+        booking: {
+          ...booking.toJSON(),
+          final_price: finalPrice,
+        },
       });
     } catch (error) {
       console.error("Error al crear reserva:", error);
@@ -83,7 +139,21 @@ export class BookingController {
         ],
       });
 
-      res.status(200).json(bookings);
+      const serviceIds = Array.from(new Set(bookings.map((item) => item.service_id)));
+      const customPriceMap = await BookingController.getCustomPriceMap(barber_id, serviceIds);
+
+      const response = bookings.map((item) => {
+        const plain = item.toJSON() as any;
+        const basePrice = plain.service?.price;
+        const finalPrice = customPriceMap.get(plain.service_id) ?? basePrice ?? null;
+
+        return {
+          ...plain,
+          final_price: finalPrice,
+        };
+      });
+
+      res.status(200).json(response);
       return;
     } catch (error) {
       console.error("Error al obtener reservas:", error);
@@ -106,7 +176,22 @@ export class BookingController {
         ],
       });
 
-      res.status(200).json(booking);
+      if (!booking) {
+        res.status(404).json({ message: "Reserva no encontrada" });
+        return;
+      }
+
+      const plain = booking.toJSON() as any;
+      const finalPrice = await BookingController.getEffectivePrice(
+        barber_id,
+        plain.service_id,
+        plain.service?.price
+      );
+
+      res.status(200).json({
+        ...plain,
+        final_price: finalPrice,
+      });
     } catch (error) {
       console.error("Error al obtener reserva:", error);
       res.status(500).json({ message: "Error interno del servidor" });
@@ -143,7 +228,17 @@ export class BookingController {
         return;
       }
 
-      res.json(booking);
+      const plain = booking.toJSON() as any;
+      const finalPrice = await BookingController.getEffectivePrice(
+        plain.barber_id,
+        plain.service_id,
+        plain.service?.price
+      );
+
+      res.json({
+        ...plain,
+        final_price: finalPrice,
+      });
     } catch (error) {
       console.error("Error al buscar reserva:", error);
       res.status(500).json({ message: "Error del servidor" });
@@ -172,10 +267,17 @@ export class BookingController {
         date,
         time: (req as any).slotTime || time, // ya validado por middleware
       });
+      const finalPrice = await BookingController.getEffectivePrice(
+        Number(barber_id),
+        Number(service_id)
+      );
 
       res.status(200).json({
         message: "Reserva actualizada con éxito",
-        booking,
+        booking: {
+          ...booking.toJSON(),
+          final_price: finalPrice,
+        },
       });
     } catch (error) {
       console.error("Error al actualizar la reserva:", error);

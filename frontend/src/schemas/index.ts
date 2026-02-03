@@ -18,6 +18,7 @@ export type Booking = {
   booking_id: number;
   client: { name: string; email: string };
   service: { name: string; price: number };
+  final_price?: number | null;
   date: string;
   time: string;
 };

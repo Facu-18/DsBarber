@@ -8,6 +8,7 @@ import Spinner from './UI/Spinner'
 export default function InfoService() {
   const searchParams = useSearchParams()
   const serviceId = searchParams.get('service_id')
+  const barberId = searchParams.get('barber_id')
   const [service, setService] = useState<Service | null>(null)
   const [loading, setLoading] = useState(true)
   const [showMore, setShowMore] = useState(false)
@@ -16,7 +17,8 @@ export default function InfoService() {
     if (!serviceId) return
     const fetchService = async () => {
       try {
-        const data = await getServiceById(Number(serviceId))
+        const parsedBarberId = barberId ? Number(barberId) : undefined
+        const data = await getServiceById(Number(serviceId), parsedBarberId)
         setService(data)
       } catch (error) {
         console.error('Error al obtener el servicio:', error)
@@ -26,7 +28,7 @@ export default function InfoService() {
     }
 
     fetchService()
-  }, [serviceId])
+  }, [serviceId, barberId])
 
   if (loading) return <div> <Spinner/> </div>
   if (!service) return <p className="mb-4 text-red-500">Servicio no encontrado</p>
