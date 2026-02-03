@@ -49,6 +49,7 @@ export class BarberController {
     });
   };
   
+  
   static createBarber = async (req: Request, res: Response) => {
     try {
       const newBarber = await Barber.create(req.body);
