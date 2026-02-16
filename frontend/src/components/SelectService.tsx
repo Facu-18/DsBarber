@@ -63,6 +63,18 @@ export default function SelectService() {
                   </span>
                 </div>
 
+                {service.service_id === 2 && (
+                  <div className="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-3">
+                    <p className="text-xs sm:text-sm text-gray-700">
+                      Darío: <span className="font-semibold text-gray-900">${service.price}</span>
+                    </p>
+                    <p className="text-xs sm:text-sm text-gray-700">
+                      Thiago:{" "}
+                      <span className="font-semibold text-gray-900">$10000</span>
+                    </p>
+                  </div>
+                )}
+
                 {/* Descripción colapsable */}
                 {service.description && (
                   <div className="text-sm text-gray-700 mb-4 leading-relaxed">
