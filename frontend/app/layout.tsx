@@ -69,6 +69,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
 
+        {/* Aviso global de sorteo */}
+        <div className="w-full border-b border-amber-300/40 bg-gradient-to-r from-amber-500/25 via-amber-400/20 to-orange-500/25 shadow-[0_8px_24px_-16px_rgba(251,191,36,0.75)]">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-center gap-2 text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-amber-200/60 bg-black/25 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber-100">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-300 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-200" />
+              </span>
+              Sorteo aniversario
+            </span>
+            <span className="text-sm font-medium text-amber-50">
+              Por el aniversario de la barberia estamos haciendo un sorteo, no te quedes sin participar haciendo.
+            </span>
+            <a
+              href="https://www.instagram.com/p/DW1kTOvkRr3/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-full border border-amber-100/70 bg-amber-200/20 px-3 py-1 text-sm font-semibold text-amber-50 hover:bg-amber-200/35 transition-colors"
+              aria-label="Participar en el sorteo de aniversario en Instagram"
+            >
+              click aquí🎉
+            </a>
+          </div>
+        </div>
+
         {/* Main */}
         <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
           {children}
