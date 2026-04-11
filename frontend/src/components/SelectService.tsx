@@ -70,7 +70,7 @@ export default function SelectService() {
                     </p>
                     <p className="text-xs sm:text-sm text-gray-700">
                       Thiago:{" "}
-                      <span className="font-semibold text-gray-900">$10000</span>
+                      <span className="font-semibold text-gray-900">$11000</span>
                     </p>
                   </div>
                 )}
