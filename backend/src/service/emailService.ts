@@ -2,7 +2,7 @@
 import SibApiV3Sdk from "sib-api-v3-sdk";
 
 const provider = process.env.EMAIL_PROVIDER || 'brevo';
-const from = process.env.EMAIL_FROM || 'DSBarber <noreply@dsbarberstudio.space>';
+const from = process.env.EMAIL_FROM || 'DSBarber <noreply@dsbarber.store>';
 
 const defaultClient = (SibApiV3Sdk as any).ApiClient.instance;
 if (process.env.BREVO_API_KEY) {
