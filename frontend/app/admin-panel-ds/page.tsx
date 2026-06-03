@@ -1,5 +1,4 @@
 import AdminComponent from "@/src/components/AdminComponent";
-import { Suspense } from "react";
 
 export default function AdminPage() {
   return (
@@ -19,9 +18,7 @@ export default function AdminPage() {
           </p>
         </header>
 
-        <Suspense fallback={<p className="text-center text-white/70">Cargando panel…</p>}>
-          <AdminComponent />
-        </Suspense>
+        <AdminComponent />
       </div>
     </div>
   );

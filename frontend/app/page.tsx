@@ -23,6 +23,7 @@ export default function HomePage() {
 
         {/* CTAs */}
         <div className="mt-6 flex flex-wrap gap-3">
+          <Link href="/rifa" className="inline-flex items-center justify-center px-5 py-3 rounded-2xl bg-red-600 text-white font-semibold shadow-xl shadow-red-950/40 hover:bg-red-500 transition active:scale-[0.98]">Rifa BarberShop DS</Link>
           <Link href="/reservar" className="inline-flex items-center justify-center px-5 py-3 rounded-2xl bg-white text-black font-semibold shadow-xl hover:shadow-2xl transition active:scale-[0.98]">Reservar turno</Link>
           <Link href="/instalacion" className="inline-flex items-center justify-center px-4 py-3 rounded-2xl bg-white/15 border border-white/25 hover:bg-white/25 transition">Nuestras instalaciones</Link>
           <Link href="/trabajos" className="inline-flex items-center justify-center px-4 py-3 rounded-2xl bg-white/15 border border-white/25 hover:bg-white/25 transition">Nuestros trabajos</Link>

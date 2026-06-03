@@ -2,10 +2,10 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const adminKey = request.nextUrl.searchParams.get('admin_key')
+  const isAdminAuthenticated = request.cookies.get('ds_admin_auth')?.value === 'true'
 
-  if (!adminKey || adminKey !== process.env.NEXT_PUBLIC_ADMIN_KEY) {
-    return NextResponse.redirect(new URL('/no-autorizado', request.url))
+  if (!isAdminAuthenticated) {
+    return NextResponse.redirect(new URL('/admin-login', request.url))
   }
 
   return NextResponse.next()

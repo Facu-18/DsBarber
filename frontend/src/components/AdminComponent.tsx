@@ -1,18 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 import { CalendarClock, ClipboardList } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import RaffleAdminManager from './RaffleAdminManager';
 
 export default function AdminComponent() {
-  const searchParams = useSearchParams();
-  const adminKey = searchParams.get('admin_key') ?? '';
-
-  // Para setear/actualizar la admin_key desde el UI (opcional, mejora UX)
-
-  const buildUrl = (path: string) =>
-    adminKey ? `${path}?admin_key=${encodeURIComponent(adminKey)}` : path;
+  const router = useRouter();
 
   const actions = useMemo(
     () => [
@@ -33,22 +28,34 @@ export default function AdminComponent() {
   );
 
 
-  const missingKey = !adminKey;
+  const logout = async () => {
+    await fetch('/api/admin-logout', { method: 'POST' });
+    router.push('/admin-login');
+  };
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={logout}
+          className="rounded-xl border border-white/15 bg-black/30 px-3 py-2 text-sm text-white/80 transition hover:bg-white/10 hover:text-white"
+        >
+          Cerrar sesión
+        </button>
+      </div>
+
+      <RaffleAdminManager />
+
       {/* Acciones principales */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
         {actions.map(({ title, href, icon: Icon, desc }) => {
-          const url = buildUrl(href);
           return (
             <Link
               key={href}
-              href={url}
+              href={href}
               className={`group rounded-2xl border border-white/15 bg-white/10 backdrop-blur-sm p-5 shadow-xl transition
-                hover:bg-white/15 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-white/30
-                ${missingKey ? 'pointer-events-none opacity-60' : ''}`}
-              aria-disabled={missingKey}
+                hover:bg-white/15 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-white/30`}
             >
               <div className="flex items-center gap-3 mb-2">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-black/40 border border-white/15">
