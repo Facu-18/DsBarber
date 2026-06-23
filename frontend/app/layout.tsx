@@ -48,9 +48,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link href="/reservar" className="text-gray-300 hover:text-white transition-colors duration-200">
                   Reservar
                 </Link>
-                <Link href="/rifa" className="text-red-300 hover:text-white transition-colors duration-200">
-                  Rifa
-                </Link>
                 <Link href="/instalacion" className="text-gray-300 hover:text-white transition-colors duration-200">
                   Nuestras instalaciones
                 </Link>

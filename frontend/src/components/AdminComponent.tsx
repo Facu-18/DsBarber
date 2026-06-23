@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { CalendarClock, ClipboardList } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import RaffleAdminManager from './RaffleAdminManager';
 
 export default function AdminComponent() {
   const router = useRouter();
@@ -44,8 +43,6 @@ export default function AdminComponent() {
           Cerrar sesión
         </button>
       </div>
-
-      <RaffleAdminManager />
 
       {/* Acciones principales */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">

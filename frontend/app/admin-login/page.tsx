@@ -38,7 +38,7 @@ export default function AdminLoginPage() {
       >
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-red-400">Acceso privado</p>
         <h1 className="mt-3 text-3xl font-black">Panel admin</h1>
-        <p className="mt-2 text-sm leading-6 text-white/70">Ingresá el PIN para gestionar turnos, horarios y números de la rifa.</p>
+        <p className="mt-2 text-sm leading-6 text-white/70">Ingresá el PIN para gestionar turnos y horarios.</p>
 
         <label className="mt-6 block text-sm font-semibold" htmlFor="admin-pin">
           PIN

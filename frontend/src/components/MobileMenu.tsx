@@ -49,13 +49,6 @@ export default function MobileMenu() {
                 Reservar
               </Link>
               <Link
-                href="/rifa"
-                onClick={() => setIsOpen(false)}
-                className="block text-red-700 hover:text-red-800 transition-colors duration-200 py-2 font-semibold"
-              >
-                Rifa
-              </Link>
-              <Link
                 href="https://wa.me/543512291106"
                 target="_blank"
                 onClick={() => setIsOpen(false)}

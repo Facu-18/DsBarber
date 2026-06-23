@@ -11,7 +11,6 @@ import serviceRoutes from './routes/serviceRoutes'
 import bookingRoutes from './routes/bookingRoutes'
 import disabledSlotsRoutes from './routes/disabledSlotsRoutes'
 import barberServicePriceRoutes from './routes/barberServicePriceRoutes'
-import raffleRoutes from './routes/raffleRoutes'
 import { db } from './config/database';
 
 dotenv.config()
@@ -59,7 +58,6 @@ app.use('/api/availability', barberAvailabilityRoutes);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/disabled', disabledSlotsRoutes);
 app.use('/api/service-price', barberServicePriceRoutes);
-app.use('/api/raffle', raffleRoutes);
 app.use('/', router);
 
 // Crear Ping para evitar sleep del backend
